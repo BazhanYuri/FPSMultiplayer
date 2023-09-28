@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Unity.FPS.Game;
 using UnityEngine;
+using Photon.Pun;
+
 
 namespace Unity.FPS.Gameplay
 {
@@ -242,7 +244,7 @@ namespace Unity.FPS.Gameplay
             // impact vfx
             if (ImpactVfx)
             {
-                GameObject impactVfxInstance = Instantiate(ImpactVfx, point + (normal * ImpactVfxSpawnOffset),
+                GameObject impactVfxInstance = PhotonNetwork.Instantiate(ImpactVfx.name, point + (normal * ImpactVfxSpawnOffset),
                     Quaternion.LookRotation(normal));
                 if (ImpactVfxLifetime > 0)
                 {

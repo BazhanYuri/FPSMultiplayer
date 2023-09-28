@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
 namespace Unity.FPS.Game
 {
@@ -42,7 +43,26 @@ namespace Unity.FPS.Game
             }
         }
 
-        public void TakeDamage(float damage, GameObject damageSource)
+        [PunRPC]
+        public void TakeDamage(float damage)
+        {
+            if (Invincible)
+                return;
+
+            float healthBefore = CurrentHealth;
+            CurrentHealth -= damage;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+
+            // call OnDamage action
+            float trueDamageAmount = healthBefore - CurrentHealth;
+            if (trueDamageAmount > 0f)
+            {
+                OnDamaged?.Invoke(trueDamageAmount, null);
+            }
+            Debug.Log("Current Health: " + CurrentHealth);
+            HandleDeath();
+        }
+        public void TakeDamage(float damage, GameObject damageSource = null)
         {
             if (Invincible)
                 return;
@@ -57,7 +77,7 @@ namespace Unity.FPS.Game
             {
                 OnDamaged?.Invoke(trueDamageAmount, damageSource);
             }
-
+            Debug.Log("Current Health: " + CurrentHealth);
             HandleDeath();
         }
 

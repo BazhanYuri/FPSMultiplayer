@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Unity.FPS.Game
 {
@@ -41,7 +42,7 @@ namespace Unity.FPS.Game
                 }
 
                 // apply the damages
-                Health.TakeDamage(totalDamage, damageSource);
+                Health.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, totalDamage);
             }
         }
     }
