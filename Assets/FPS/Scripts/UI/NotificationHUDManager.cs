@@ -1,6 +1,7 @@
 ﻿using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
 using UnityEngine;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -12,7 +13,28 @@ namespace Unity.FPS.UI
         [Tooltip("Prefab for the notifications")]
         public GameObject NotificationPrefab;
 
-        void Awake()
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             PlayerWeaponsManager playerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, NotificationHUDManager>(playerWeaponsManager,

@@ -40,6 +40,8 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - TakeDamage
+  - SyncBoolValue
+  - SetAsNotFree
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

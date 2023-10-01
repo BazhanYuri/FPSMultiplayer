@@ -2,6 +2,7 @@
 using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -17,8 +18,28 @@ namespace Unity.FPS.UI
         CrosshairData m_CrosshairDataDefault;
         CrosshairData m_CrosshairDataTarget;
         CrosshairData m_CurrentCrosshair;
+        private EventBus _eventBus;
 
-        void Start()
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             m_WeaponsManager = GameObject.FindObjectOfType<PlayerWeaponsManager>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, CrosshairManager>(m_WeaponsManager, this);
@@ -30,6 +51,8 @@ namespace Unity.FPS.UI
 
         void Update()
         {
+            if (m_WeaponsManager == null)
+                return;
             UpdateCrosshairPointingAtEnemy(false);
             m_WasPointingAtEnemy = m_WeaponsManager.IsPointingAtEnemy;
         }

@@ -1,13 +1,14 @@
 using Photon.Pun;
+using System;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 namespace Unity.FPS.Multiplayer
 {
+
     public class PhotonManager : MonoBehaviourPunCallbacks
     {
-        public Player playerPrefab;
-        public Transform spawnPoint;
+        public event Action JoinedRoom;
 
         void Start()
         {
@@ -32,8 +33,8 @@ namespace Unity.FPS.Multiplayer
         }
         public override void OnJoinedRoom()
         {
-            Player _player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, Quaternion.identity).GetComponent<Player>();
-            _player.SetAsLocalMultiplayer();
+            base.OnJoinedRoom();
+            PhotonNetwork.LoadLevel("MainScene");
         }
     }
 }

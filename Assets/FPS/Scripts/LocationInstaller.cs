@@ -1,28 +1,69 @@
 using UnityEngine;
 using Zenject;
+using Unity.FPS.Multiplayer;
+using Unity.FPS.UI;
+using Unity.FPS.Game;
 
 namespace Unity.FPS.Gameplay
 {
     public class LocationInstaller : MonoInstaller
     {
-        [SerializeField] private PlayerCharacterController _playerPrefab;
-        [SerializeField] private Transform _startPoint;
+        [SerializeField] private SpawnPointsHolder _spawnPointsHolder;
+        [Header("Configs")]
+        [SerializeField] private GameConfig _gameConfig;
+        [Header("UI")]
+        [SerializeField] private TeamChooserUI _teamChooserUIPrefab;
 
 
-        
+
         public override void InstallBindings()
         {
-            BindPlayer();
+            BindConfigs();
+            BindEventBus();
+            BindUIFactories();
+            BindUIBuilder();
+            BindSpawnPointsHolder();
+            BindPlayerSpawner();
         }
-        private void BindPlayer()
+        
+        private void BindConfigs()
         {
-            PlayerCharacterController player = Container.InstantiatePrefabForComponent<PlayerCharacterController>(_playerPrefab, _startPoint.position, Quaternion.identity, null);
-
             Container
-                .Bind<PlayerCharacterController>()
-                .FromInstance(player)
+                .Bind<GameConfig>()
+                .FromInstance(_gameConfig)
                 .AsSingle();
         }
+        private void BindEventBus()
+        {
+            Container
+                .Bind<EventBus>()
+                .AsSingle();
+        }
+        private void BindUIFactories()
+        {
+            Container.BindFactory<TeamChooserUI, TeamChooserUIFactory>()
+                .FromComponentInNewPrefab(_teamChooserUIPrefab);
+        }
+        private void BindUIBuilder()
+        {
+            Container
+                .BindInterfacesTo<UIBuilder>()
+                .AsSingle();
+        }
+        private void BindSpawnPointsHolder()
+        {
+            Container
+                .Bind<SpawnPointsHolder>()
+                .FromInstance(_spawnPointsHolder)
+                .AsSingle();
+        }
+        private void BindPlayerSpawner()
+        {
+            Container
+                .BindInterfacesTo<PlayerSpawner>()
+                .AsSingle();
+        }
+     
     }
 }
 

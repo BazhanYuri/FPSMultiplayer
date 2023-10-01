@@ -2,6 +2,7 @@
 using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -10,24 +11,49 @@ namespace Unity.FPS.UI
         [Tooltip("Image component dispplaying current health")]
         public Image HealthFillImage;
 
-        Health m_PlayerHealth;
+        private Health _PlayerHealth;
 
-        void Start()
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             PlayerCharacterController playerCharacterController =
                 GameObject.FindObjectOfType<PlayerCharacterController>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerCharacterController, PlayerHealthBar>(
                 playerCharacterController, this);
 
-            m_PlayerHealth = playerCharacterController.GetComponent<Health>();
-            DebugUtility.HandleErrorIfNullGetComponent<Health, PlayerHealthBar>(m_PlayerHealth, this,
+            _PlayerHealth = playerCharacterController.GetComponent<Health>();
+            DebugUtility.HandleErrorIfNullGetComponent<Health, PlayerHealthBar>(_PlayerHealth, this,
                 playerCharacterController.gameObject);
         }
 
         void Update()
         {
+            if (_PlayerHealth == null)
+            {
+                return;
+            }
             // update health bar value
-            HealthFillImage.fillAmount = m_PlayerHealth.CurrentHealth / m_PlayerHealth.MaxHealth;
+            HealthFillImage.fillAmount = _PlayerHealth.CurrentHealth / _PlayerHealth.MaxHealth;
         }
     }
 }

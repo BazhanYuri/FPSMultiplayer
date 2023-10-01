@@ -2,6 +2,7 @@
 using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
 using UnityEngine;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -16,7 +17,28 @@ namespace Unity.FPS.UI
         PlayerWeaponsManager m_PlayerWeaponsManager;
         List<AmmoCounter> m_AmmoCounters = new List<AmmoCounter>();
 
-        void Start()
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, WeaponHUDManager>(m_PlayerWeaponsManager,

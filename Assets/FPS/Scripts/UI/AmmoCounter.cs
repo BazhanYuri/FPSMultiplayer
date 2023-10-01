@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Unity.FPS.UI
 {
+
     [RequireComponent(typeof(FillBarColorChange))]
     public class AmmoCounter : MonoBehaviour
     {

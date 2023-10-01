@@ -2,6 +2,7 @@
 using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -18,16 +19,41 @@ namespace Unity.FPS.UI
 
         Jetpack m_Jetpack;
 
-        void Awake()
+
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             m_Jetpack = FindObjectOfType<Jetpack>();
             DebugUtility.HandleErrorIfNullFindObject<Jetpack, JetpackCounter>(m_Jetpack, this);
 
             FillBarColorChange.Initialize(1f, 0f);
         }
-
         void Update()
         {
+            if (m_Jetpack == null)
+            {
+                return;
+            }
             MainCanvasGroup.gameObject.SetActive(m_Jetpack.IsJetpackUnlocked);
 
             if (m_Jetpack.IsJetpackUnlocked)

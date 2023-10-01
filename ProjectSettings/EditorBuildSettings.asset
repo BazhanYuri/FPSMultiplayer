@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/FPS/Scenes/IntroMenu.unity
     guid: 56e3faabc5bb30f49a68bb8f1292f988
   - enabled: 1
+    path: Assets/FPS/Scenes/Lobby.unity
+    guid: 3a3f1bf2e9bf63f439271d310332f84a
+  - enabled: 1
     path: Assets/FPS/Scenes/WinScene.unity
     guid: 037d06fbede2b4041a843d9ee6fe750c
   - enabled: 1

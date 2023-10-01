@@ -3,6 +3,7 @@ using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -33,7 +34,30 @@ namespace Unity.FPS.UI
         Health m_PlayerHealth;
         FramerateCounter m_FramerateCounter;
 
-        void Start()
+
+
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             m_PlayerInputsHandler = FindObjectOfType<PlayerInputHandler>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerInputHandler, InGameMenuManager>(m_PlayerInputsHandler,
@@ -63,16 +87,10 @@ namespace Unity.FPS.UI
         void Update()
         {
             // Lock cursor when clicking outside of menu
-            if (!MenuRoot.activeSelf && Input.GetMouseButtonDown(0))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (m_PlayerInputsHandler == null)
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                return;
             }
 
             if (Input.GetButtonDown(GameConstants.k_ButtonNamePauseMenu)

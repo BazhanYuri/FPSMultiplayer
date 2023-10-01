@@ -2,6 +2,7 @@
 using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Unity.FPS.UI
 {
@@ -45,7 +46,29 @@ namespace Unity.FPS.UI
         Health m_PlayerHealth;
         GameFlowManager m_GameFlowManager;
 
-        void Start()
+
+        private EventBus _eventBus;
+
+
+
+        [Inject]
+        public void Construct(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+        }
+        private void OnEnable()
+        {
+            _eventBus.PlayerSpawned += OnPlayerSpawned;
+        }
+        private void OnDisable()
+        {
+            _eventBus.PlayerSpawned -= OnPlayerSpawned;
+        }
+        private void OnPlayerSpawned()
+        {
+            GetPlayer();
+        }
+        private void GetPlayer()
         {
             // Subscribe to player damage events
             PlayerCharacterController playerCharacterController = FindObjectOfType<PlayerCharacterController>();
@@ -65,6 +88,10 @@ namespace Unity.FPS.UI
 
         void Update()
         {
+            if (m_PlayerHealth == null)
+            {
+                return;
+            }
             if (m_PlayerHealth.IsCritical())
             {
                 VignetteCanvasGroup.gameObject.SetActive(true);
