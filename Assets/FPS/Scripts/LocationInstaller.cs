@@ -19,6 +19,7 @@ namespace Unity.FPS.Gameplay
         public override void InstallBindings()
         {
             BindConfigs();
+            BindPhotonGameplayManager();
             BindEventBus();
             BindUIFactories();
             BindUIBuilder();
@@ -26,6 +27,12 @@ namespace Unity.FPS.Gameplay
             BindPlayerSpawner();
         }
         
+        private void BindPhotonGameplayManager()
+        {
+            Container
+                .BindInterfacesTo<PhotonGameplayManager>()
+                .AsSingle();
+        }
         private void BindConfigs()
         {
             Container
@@ -63,7 +70,5 @@ namespace Unity.FPS.Gameplay
                 .BindInterfacesTo<PlayerSpawner>()
                 .AsSingle();
         }
-     
     }
 }
-

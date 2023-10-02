@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+/*public class Weapon : MonoBehaviour
 {
     public Camera camera;
     public int damage;
@@ -34,3 +34,4 @@ public class Weapon : MonoBehaviour
         }
     }
 }
+*/

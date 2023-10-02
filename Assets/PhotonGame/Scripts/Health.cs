@@ -2,7 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 
-public class Health : MonoBehaviour
+/*public class Health : MonoBehaviour
 {
     public int health;
     public TextMeshProUGUI text;
@@ -18,3 +18,4 @@ public class Health : MonoBehaviour
         }
     }
 }
+*/

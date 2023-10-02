@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameConfig", menuName = "FPS/GameConfig")]
 public class GameConfig : ScriptableObject
 {
+    public int maxBlueTeamPlayers;
+    public int maxRedTeamPlayers;
     public Player bluePlayerPrefab;
     public Player redPlayerPrefab;
 }

@@ -12,16 +12,18 @@ namespace Unity.FPS.Multiplayer
         private GameConfig _gameConfig;
         private IUIBuilder _uiBuilder;
         private SpawnPointsHolder _spawnPointsHolder;
+        private IPhotonManager _photonManager;
         private EventBus _eventBus;
 
 
         [Inject]
-        public void Construct(SpawnPointsHolder spawnPointsHolder, GameConfig gameConfig, IUIBuilder uIBuilder, EventBus eventBus)
+        public void Construct(SpawnPointsHolder spawnPointsHolder, GameConfig gameConfig, IUIBuilder uIBuilder, EventBus eventBus, IPhotonManager photonManager)
         {
             _spawnPointsHolder = spawnPointsHolder;
             _gameConfig = gameConfig;
             _uiBuilder = uIBuilder;
             _eventBus = eventBus;
+            _photonManager = photonManager;
         }
 
         public void Initialize()
@@ -46,6 +48,7 @@ namespace Unity.FPS.Multiplayer
                 Player _player = PhotonNetwork.Instantiate(_gameConfig.bluePlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
                 _player.SetAsLocalMultiplayer();
             }
+            _photonManager.AddPlayerToTeam(teamType);
 
             _eventBus.InvokePlayerSpawned();
         }
