@@ -9,7 +9,7 @@ namespace Unity.FPS.Multiplayer
         public int RedTeamPlayerCount { get; }
 
         public event Action TeamCountUpdated;
-        void AddPlayerToTeam(TeamType teamType);
+        void AddPlayerToTeam(TeamType teamType, Player player);
     }
 }
 

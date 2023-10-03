@@ -13,6 +13,7 @@ namespace Unity.FPS.Gameplay
         [SerializeField] private GameConfig _gameConfig;
         [Header("UI")]
         [SerializeField] private TeamChooserUI _teamChooserUIPrefab;
+        [SerializeField] private PhotonGameplayManager _photonGameplayManagerPrefab;
 
 
 
@@ -29,9 +30,8 @@ namespace Unity.FPS.Gameplay
         
         private void BindPhotonGameplayManager()
         {
-            Container
-                .BindInterfacesTo<PhotonGameplayManager>()
-                .AsSingle();
+            PhotonGameplayManager photonGameplayManager = Container.InstantiatePrefabForComponent<PhotonGameplayManager>(_photonGameplayManagerPrefab);
+            Container.BindInterfacesTo<PhotonGameplayManager>().FromInstance(photonGameplayManager).AsSingle();
         }
         private void BindConfigs()
         {

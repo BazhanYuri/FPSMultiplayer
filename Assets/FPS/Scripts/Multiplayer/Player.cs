@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.FPS.Enums;
 using Unity.FPS.Gameplay;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private PlayerCharacterController _characterController;
         [SerializeField] private Jetpack _jetpack;
 
+
+        public TeamType TeamType { get; private set; }
 
 
         private void Awake()
@@ -39,10 +42,9 @@ namespace Unity.FPS.Multiplayer
             _jetpack.enabled = true;
             gameObject.SetActive(true);
         }
-
-        public static explicit operator Player(GameObject v)
+        public void SetTeam(TeamType teamType)
         {
-            throw new NotImplementedException();
+            TeamType = teamType;
         }
     }
 }

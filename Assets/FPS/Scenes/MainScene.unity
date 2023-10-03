@@ -1366,6 +1366,8 @@ MonoBehaviour:
   _gameConfig: {fileID: 11400000, guid: da47a4f4425a59e45bea72376012a984, type: 2}
   _teamChooserUIPrefab: {fileID: 5428062677939210369, guid: 49c9d25e8adcbf0409b8a1b0029352dd,
     type: 3}
+  _photonGameplayManagerPrefab: {fileID: 5999319945360232711, guid: fa43858e4da64b040b8dfbb06bdbae0d,
+    type: 3}
 --- !u!1001 &308455147
 PrefabInstance:
   m_ObjectHideFlags: 0

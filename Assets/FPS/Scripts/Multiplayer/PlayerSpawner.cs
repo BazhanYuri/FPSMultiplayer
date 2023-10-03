@@ -34,21 +34,33 @@ namespace Unity.FPS.Multiplayer
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            Vector3 position;
+            Player _player;
+            Vector3 position = Vector3.zero;
             if (teamType == TeamType.Red)
             {
-                position = _spawnPointsHolder.RedTeamSpawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].transform.position;
-                Player _player = PhotonNetwork.Instantiate(_gameConfig.redPlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
-                _player.SetAsLocalMultiplayer();
+                _player = PhotonNetwork.Instantiate(_gameConfig.redPlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
             }
             else
             {
-                position = _spawnPointsHolder.BlueTeamSpawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].transform.position;
-                Player _player = PhotonNetwork.Instantiate(_gameConfig.bluePlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
-                _player.SetAsLocalMultiplayer();
+                _player = PhotonNetwork.Instantiate(_gameConfig.bluePlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
             }
-            _photonManager.AddPlayerToTeam(teamType);
+
+            _player.SetAsLocalMultiplayer();
+            _player.SetTeam(teamType);
+            _photonManager.AddPlayerToTeam(teamType, _player);
+
+            switch (teamType)
+            {
+                case TeamType.Blue:
+                    position = _spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount].transform.position;
+                    break;
+                case TeamType.Red:
+                    position = _spawnPointsHolder.RedTeamSpawnPoints[_photonManager.RedTeamPlayerCount].transform.position;
+                    break;
+                default:
+                    break;
+            }
+            _player.transform.position = position;
 
             _eventBus.InvokePlayerSpawned();
         }

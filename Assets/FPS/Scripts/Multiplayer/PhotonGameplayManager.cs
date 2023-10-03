@@ -4,81 +4,108 @@ using Photon.Realtime;
 using System;
 using Unity.FPS.Enums;
 using UnityEngine;
-using Zenject;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Unity.FPS.Multiplayer
 {
-
-    public class PhotonGameplayManager : IInitializable, IOnEventCallback, IPhotonManager
+    public class PhotonGameplayManager : MonoBehaviourPunCallbacks, IPhotonManager
     {
-        private const byte PlayerAddedEventCode = 2;
+        private Player _player;
 
+        private const string BlueTeamPlayerCountKey = "BlueTeamPlayerCount";
+        private const string RedTeamPlayerCountKey = "RedTeamPlayerCount";
 
-        private int blueTeamPlayerCount;
-        private int redTeamPlayerCount;
-
-        public int BlueTeamPlayerCount { get => blueTeamPlayerCount;}
-        public int RedTeamPlayerCount { get => redTeamPlayerCount;}
+        public int BlueTeamPlayerCount { get; private set; }
+        public int RedTeamPlayerCount { get; private set; }
 
         public event Action TeamCountUpdated;
 
-
-        
-
-        public void Initialize()
+        public override void OnEnable()
         {
+            base.OnEnable();
             PhotonNetwork.AddCallbackTarget(this);
         }
 
-        public void OnDestroy()
+        public override void OnDisable()
         {
+            base.OnDisable();
             PhotonNetwork.RemoveCallbackTarget(this);
         }
-
-
-        public void AddPlayerToTeam(TeamType teamType)
+        private void Awake()
         {
-            switch (teamType)
+            InitializePlayerCounts();
+        }
+        private void InitializePlayerCounts()
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(BlueTeamPlayerCountKey, out object blueCountObj))
             {
-                case TeamType.Blue:
-                    blueTeamPlayerCount++;
-                    break;
-                case TeamType.Red:
-                    redTeamPlayerCount++;
-                    break;
+                BlueTeamPlayerCount = (int)blueCountObj;
             }
+
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RedTeamPlayerCountKey, out object redCountObj))
+            {
+                RedTeamPlayerCount = (int)redCountObj;
+            }
+
+            TeamCountUpdated?.Invoke();
+        }
+        public void AddPlayerToTeam(TeamType teamType, Player player)
+        {
+            if (PhotonNetwork.LocalPlayer == null)
+            {
+                Debug.LogWarning("PhotonNetwork.LocalPlayer is null. Cannot add player to team.");
+                return;
+            }
+            _player = player;
+            // Update the player count based on the chosen team
+            if (teamType == TeamType.Blue)
+            {
+                BlueTeamPlayerCount++;
+            }
+            else if (teamType == TeamType.Red)
+            {
+                RedTeamPlayerCount++;
+            }
+
+            // Update room properties with the new player counts
+            UpdateTeamsCount();
+        }
+        private void UpdateTeamsCount()
+        {
+            Hashtable playerCountProps = new Hashtable
+            {
+                { BlueTeamPlayerCountKey, BlueTeamPlayerCount },
+                { RedTeamPlayerCountKey, RedTeamPlayerCount }
+            };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(playerCountProps);
 
             SendPlayerAddedEvent();
         }
         private void SendPlayerAddedEvent()
         {
-            // Send a custom event to notify other players of the added player
+            // Notify all players of the updated player counts through room properties
             Hashtable eventData = new Hashtable
             {
-                { "blueTeamPlayerCount", blueTeamPlayerCount },
-                { "redTeamPlayerCount", redTeamPlayerCount }
+                { BlueTeamPlayerCountKey, BlueTeamPlayerCount },
+                { RedTeamPlayerCountKey, RedTeamPlayerCount }
             };
-            PhotonNetwork.RaiseEvent(
-                PlayerAddedEventCode,
-                eventData,
-                new RaiseEventOptions { Receivers = ReceiverGroup.All },
-                new SendOptions { Reliability = true }
-            );
+            PhotonNetwork.CurrentRoom.SetCustomProperties(eventData);
         }
-        public void OnEvent(EventData photonEvent)
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-            if (photonEvent.Code == PlayerAddedEventCode)
+            // Check if player count properties were updated
+            if (propertiesThatChanged.ContainsKey(BlueTeamPlayerCountKey))
             {
-                // Received a player added event, handle it
-                Hashtable eventData = (Hashtable)photonEvent.CustomData;
-
-                blueTeamPlayerCount = (int)eventData["blueTeamPlayerCount"];
-                redTeamPlayerCount = (int)eventData["redTeamPlayerCount"];
-
-                TeamCountUpdated?.Invoke();
+                BlueTeamPlayerCount = (int)propertiesThatChanged[BlueTeamPlayerCountKey];
             }
-        }
 
+            if (propertiesThatChanged.ContainsKey(RedTeamPlayerCountKey))
+            {
+                RedTeamPlayerCount = (int)propertiesThatChanged[RedTeamPlayerCountKey];
+            }
+
+            TeamCountUpdated?.Invoke();
+        }
     }
 }
-

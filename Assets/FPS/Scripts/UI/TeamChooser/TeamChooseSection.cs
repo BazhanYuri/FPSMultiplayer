@@ -25,6 +25,7 @@ namespace Unity.FPS.UI
         }
         public void UpdateTeamCount(int currentCount, int maxCount)
         {
+            Debug.Log("UpdateTeamCount");
             _maxCount = maxCount;
             _playersCountText.text = currentCount + "/" + maxCount;
 
