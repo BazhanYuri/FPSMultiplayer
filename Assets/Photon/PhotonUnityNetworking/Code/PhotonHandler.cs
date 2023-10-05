@@ -317,17 +317,17 @@ namespace Photon.Pun
                         reusableIntList.Add(viewOwnerId);
                     }
             }
-
+            
             if (amRejoiningMaster && reusableIntList.Count > 0)
             {
                 PhotonNetwork.OwnershipUpdate(reusableIntList.ToArray());
             }
+            
         }
 
         public void OnLeftRoom()
         {
             // Destroy spawned objects and reset scene objects
-            PhotonNetwork.LocalCleanupAnythingInstantiated(true);
         }
 
 

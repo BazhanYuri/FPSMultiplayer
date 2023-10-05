@@ -14,9 +14,13 @@ namespace Unity.FPS.Multiplayer
 
         private const string BlueTeamPlayerCountKey = "BlueTeamPlayerCount";
         private const string RedTeamPlayerCountKey = "RedTeamPlayerCount";
+        private const string DeadBlueTeamPlayerCountKey = "DeadBlueTeamPlayerCount";
+        private const string DeadRedTeamPlayerCountKey = "DeadRedTeamPlayerCount";
 
         public int BlueTeamPlayerCount { get; private set; }
         public int RedTeamPlayerCount { get; private set; }
+        public int DiedBlueTeamPlayerCount { get; private set; }
+        public int DiedRedTeamPlayerCount { get; private set; }
 
         public event Action TeamCountUpdated;
 
@@ -47,6 +51,17 @@ namespace Unity.FPS.Multiplayer
                 RedTeamPlayerCount = (int)redCountObj;
             }
 
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(DeadBlueTeamPlayerCountKey, out object deadBlueCountObj))
+            {
+                DiedBlueTeamPlayerCount = (int)deadBlueCountObj;
+            }
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(DeadRedTeamPlayerCountKey, out object deadRedCountObj))
+            {
+                DiedRedTeamPlayerCount = (int)deadRedCountObj;
+            }
+
+            UpdateTeamsCount();
+
             TeamCountUpdated?.Invoke();
         }
         public void AddPlayerToTeam(TeamType teamType, Player player)
@@ -57,6 +72,7 @@ namespace Unity.FPS.Multiplayer
                 return;
             }
             _player = player;
+            _player.Health.OnDie += OnPlayerDied;
             // Update the player count based on the chosen team
             if (teamType == TeamType.Blue)
             {
@@ -70,6 +86,22 @@ namespace Unity.FPS.Multiplayer
             // Update room properties with the new player counts
             UpdateTeamsCount();
         }
+        private void OnPlayerDied()
+        {
+            switch (_player.TeamType)
+            {
+                case TeamType.Blue:
+                    DiedBlueTeamPlayerCount++;
+                    break;
+                case TeamType.Red:
+                    DiedRedTeamPlayerCount++;
+                    break;
+                default:
+                    break;
+            }
+
+            UpdateDeadTeamsCount();
+        }
         private void UpdateTeamsCount()
         {
             Hashtable playerCountProps = new Hashtable
@@ -79,33 +111,85 @@ namespace Unity.FPS.Multiplayer
             };
             PhotonNetwork.CurrentRoom.SetCustomProperties(playerCountProps);
 
-            SendPlayerAddedEvent();
         }
-        private void SendPlayerAddedEvent()
+        
+
+        private void UpdateDeadTeamsCount()
         {
-            // Notify all players of the updated player counts through room properties
-            Hashtable eventData = new Hashtable
+            Hashtable DeadplayerCountProps = new Hashtable
             {
-                { BlueTeamPlayerCountKey, BlueTeamPlayerCount },
-                { RedTeamPlayerCountKey, RedTeamPlayerCount }
+                { DeadBlueTeamPlayerCountKey, DiedBlueTeamPlayerCount },
+                { DeadRedTeamPlayerCountKey, DiedRedTeamPlayerCount }
             };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(eventData);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(DeadplayerCountProps);
+
+
         }
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
             // Check if player count properties were updated
+            CheckTeams(propertiesThatChanged);
+            CheckDeathTeams(propertiesThatChanged);
+        }
+        private void CheckTeams(Hashtable propertiesThatChanged)
+        {
             if (propertiesThatChanged.ContainsKey(BlueTeamPlayerCountKey))
             {
                 BlueTeamPlayerCount = (int)propertiesThatChanged[BlueTeamPlayerCountKey];
+                TeamCountUpdated?.Invoke();
             }
-
             if (propertiesThatChanged.ContainsKey(RedTeamPlayerCountKey))
             {
                 RedTeamPlayerCount = (int)propertiesThatChanged[RedTeamPlayerCountKey];
+                TeamCountUpdated?.Invoke();
             }
 
-            TeamCountUpdated?.Invoke();
+        }
+        private void CheckDeathTeams(Hashtable propertiesThatChanged)
+        {
+            if (propertiesThatChanged.ContainsKey(DeadBlueTeamPlayerCountKey))
+            {
+                DiedBlueTeamPlayerCount = (int)propertiesThatChanged[DeadBlueTeamPlayerCountKey];
+            }
+            if (propertiesThatChanged.ContainsKey(DeadRedTeamPlayerCountKey))
+            {
+                DiedRedTeamPlayerCount = (int)propertiesThatChanged[DeadRedTeamPlayerCountKey];
+            }
+            CalculateEndMatchResult();
+        }
+        private void CalculateEndMatchResult()
+        {
+            TeamType winners = TeamType.None;
+            if (DiedBlueTeamPlayerCount == BlueTeamPlayerCount)
+            {
+                winners = TeamType.Red;
+            }
+            else if (DiedRedTeamPlayerCount == RedTeamPlayerCount)
+            {
+                winners = TeamType.Blue;
+            }
+            if (winners == TeamType.None)
+            {
+                return;
+            }
+
+            if (_player?.TeamType == winners)
+            {
+                ShowWinScreen();
+            }
+            else
+            {
+                ShowFailScreen();
+            }
+        }
+        private void ShowFailScreen()
+        {
+            Debug.Log("Fail");
+        }
+        private void ShowWinScreen()
+        {
+            Debug.Log("Win");
         }
     }
 }

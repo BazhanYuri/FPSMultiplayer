@@ -8,7 +8,8 @@ namespace Unity.FPS.Enums
     public enum TeamType
     {
         Blue,
-        Red
+        Red,
+        None
     }
 }
 

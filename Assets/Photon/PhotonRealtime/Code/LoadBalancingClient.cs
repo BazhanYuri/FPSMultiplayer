@@ -3016,9 +3016,12 @@ namespace Photon.Realtime
                         this.ConnectionCallbackTargets.OnConnected(); // if initial connect
                     }
 
+                    
 
                     if (this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocketSecure)
                     {
+                        
+
                         if (this.Server == ServerConnection.NameServer || this.AuthMode == AuthModeOption.Auth)
                         {
                             this.LoadBalancingPeer.EstablishEncryption();
@@ -3070,6 +3073,12 @@ namespace Photon.Realtime
                     this.friendListRequested = null;
 
                     bool wasInRoom = this.CurrentRoom != null;
+                    if (this.State == ClientState.Joined)
+                    {
+                        // special case: when the client is in a room (joined) but directly disconnects, set a Disconnecting State (this triggers a StateChanged callback).
+                        // the callback helps higher level apis to clean up before the room is gone (by reacting to StateChanged from Joined to Disconnecting).
+                        this.State = ClientState.Disconnecting;
+                    }
                     this.CurrentRoom = null; // players get cleaned up inside this, too, except LocalPlayer (which we keep)
                     this.ChangeLocalID(-1);  // depends on this.CurrentRoom, so it must be called after updating that
 

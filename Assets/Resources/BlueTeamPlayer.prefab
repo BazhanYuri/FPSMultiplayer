@@ -1121,6 +1121,7 @@ MonoBehaviour:
   _inputHandler: {fileID: 91599816983263417}
   _characterController: {fileID: 6863826371740322192}
   _jetpack: {fileID: 6832833375343984076}
+  _health: {fileID: 5111001962299811376}
 --- !u!114 &5505778508003243703
 MonoBehaviour:
   m_ObjectHideFlags: 0

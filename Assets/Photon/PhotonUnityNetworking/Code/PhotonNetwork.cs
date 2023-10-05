@@ -2585,9 +2585,14 @@ namespace Photon.Pun
 
             GameObject go = null;
             PhotonView[] photonViews;
-
+            
             go = prefabPool.Instantiate(parameters.prefabName, parameters.position, parameters.rotation);
 
+            if (parameters.viewIDs != null && photonViewList.TryGetValue(parameters.viewIDs[0], out PhotonView listedView))
+            {
+                Debug.Log(parameters.prefabName + " instantiate cancelled : viewId already exists");
+                return null;
+            }
 
             if (go == null)
             {

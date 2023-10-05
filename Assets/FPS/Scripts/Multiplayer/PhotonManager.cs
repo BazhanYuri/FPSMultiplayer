@@ -1,11 +1,11 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Unity.FPS.Multiplayer
 {
-
     public class PhotonManager : MonoBehaviourPunCallbacks
     {
         public event Action JoinedRoom;
@@ -27,7 +27,7 @@ namespace Unity.FPS.Multiplayer
         {
             base.OnJoinedLobby();
 
-            PhotonNetwork.JoinOrCreateRoom("test", null, null);
+            PhotonNetwork.JoinOrCreateRoom("test2", null, null);
 
             Debug.Log("Connected to room");
         }
@@ -36,6 +36,7 @@ namespace Unity.FPS.Multiplayer
             base.OnJoinedRoom();
             PhotonNetwork.LoadLevel("MainScene");
         }
+       
     }
 }
 
