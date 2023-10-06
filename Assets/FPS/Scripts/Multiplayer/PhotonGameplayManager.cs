@@ -1,6 +1,4 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
-using Photon.Realtime;
+﻿using Photon.Pun;
 using System;
 using Unity.FPS.Enums;
 using UnityEngine;
@@ -23,6 +21,7 @@ namespace Unity.FPS.Multiplayer
         public int DiedRedTeamPlayerCount { get; private set; }
 
         public event Action TeamCountUpdated;
+        public event Action<TeamType> TeamWon;
 
         public override void OnEnable()
         {
@@ -160,6 +159,11 @@ namespace Unity.FPS.Multiplayer
         }
         private void CalculateEndMatchResult()
         {
+            if (BlueTeamPlayerCount <= 0 || RedTeamPlayerCount <= 0)
+            {
+                return;
+            }
+
             TeamType winners = TeamType.None;
             if (DiedBlueTeamPlayerCount == BlueTeamPlayerCount)
             {
@@ -174,22 +178,7 @@ namespace Unity.FPS.Multiplayer
                 return;
             }
 
-            if (_player?.TeamType == winners)
-            {
-                ShowWinScreen();
-            }
-            else
-            {
-                ShowFailScreen();
-            }
-        }
-        private void ShowFailScreen()
-        {
-            Debug.Log("Fail");
-        }
-        private void ShowWinScreen()
-        {
-            Debug.Log("Win");
+            TeamWon?.Invoke(winners);
         }
     }
 }

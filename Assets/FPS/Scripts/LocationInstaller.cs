@@ -13,6 +13,7 @@ namespace Unity.FPS.Gameplay
         [SerializeField] private GameConfig _gameConfig;
         [Header("UI")]
         [SerializeField] private TeamChooserUI _teamChooserUIPrefab;
+        [SerializeField] private TeamWinScreen _teamWinScreenPrefab;
         [SerializeField] private PhotonGameplayManager _photonGameplayManagerPrefab;
 
 
@@ -50,6 +51,9 @@ namespace Unity.FPS.Gameplay
         {
             Container.BindFactory<TeamChooserUI, TeamChooserUIFactory>()
                 .FromComponentInNewPrefab(_teamChooserUIPrefab);
+            Container.BindFactory<TeamWinScreen, TeamWinUIFactory>()
+                .FromComponentInNewPrefab(_teamWinScreenPrefab);
+
         }
         private void BindUIBuilder()
         {
