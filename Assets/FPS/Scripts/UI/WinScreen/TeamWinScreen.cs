@@ -34,7 +34,10 @@ namespace Unity.FPS.UI
         }
         private void TextAnimation(RectTransform rectTransform)
         {
-            rectTransform.DOScale(Vector3.one, 1).SetEase(Ease.OutBounce);
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(rectTransform.DOScale(Vector3.one, 1).SetEase(Ease.OutBounce));
+            sequence.AppendInterval(2);
+            sequence.Append(rectTransform.DOScale(Vector3.zero, 1).SetEase(Ease.InBounce));
         }
     }
 }

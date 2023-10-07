@@ -72,7 +72,7 @@ namespace Unity.FPS.Game
 
             // Remember that we need to load the appropriate end scene after a delay
             GameIsEnding = true;
-            EndGameFadeCanvasGroup.gameObject.SetActive(true);
+            //EndGameFadeCanvasGroup.gameObject.SetActive(true);
             if (win)
             {
                 m_SceneToLoad = WinSceneName;

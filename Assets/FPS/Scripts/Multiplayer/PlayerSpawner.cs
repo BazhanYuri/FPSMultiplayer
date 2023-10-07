@@ -44,7 +44,7 @@ namespace Unity.FPS.Multiplayer
             {
                 _player = PhotonNetwork.Instantiate(_gameConfig.bluePlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
             }
-
+            _player.Initialize(_eventBus);
             _player.SetAsLocalMultiplayer();
             _player.SetTeam(teamType);
             _photonManager.AddPlayerToTeam(teamType, _player);
@@ -53,13 +53,16 @@ namespace Unity.FPS.Multiplayer
             {
                 case TeamType.Blue:
                     position = _spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount].transform.position;
+                    _player.SetSpawnPoint(_spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount]);
                     break;
                 case TeamType.Red:
                     position = _spawnPointsHolder.RedTeamSpawnPoints[_photonManager.RedTeamPlayerCount].transform.position;
+                    _player.SetSpawnPoint(_spawnPointsHolder.RedTeamSpawnPoints[_photonManager.BlueTeamPlayerCount]);
                     break;
                 default:
                     break;
             }
+
             _player.transform.position = position;
 
             _eventBus.InvokePlayerSpawned();

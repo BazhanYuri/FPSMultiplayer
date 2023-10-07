@@ -15,9 +15,20 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private Jetpack _jetpack;
         [SerializeField] private Health _health;
 
+        private EventBus _eventBus;
+
 
         public TeamType TeamType { get; private set; }
-        public Health Health { get => _health;}
+        public SpawnPoint SpawnPoint { get; private set; }
+        public Health Health { get => _health; }
+
+
+
+       
+        private void OnDisable()
+        {
+            _eventBus.RoundCompleted -= RestartPlayer;
+        }
 
         private void Awake()
         {
@@ -38,6 +49,12 @@ namespace Unity.FPS.Multiplayer
             _characterController.enabled = false;
             _jetpack.enabled = false;
         }
+        public void Initialize(EventBus eventBus)
+        {
+            _eventBus = eventBus;
+
+            _eventBus.RoundCompleted += RestartPlayer;
+        }
         public void SetAsLocalMultiplayer()
         {
             foreach (var camera in _cameras)
@@ -57,6 +74,15 @@ namespace Unity.FPS.Multiplayer
         public void SetTeam(TeamType teamType)
         {
             TeamType = teamType;
+        }
+        public void SetSpawnPoint(SpawnPoint spawnPoint)
+        {
+            SpawnPoint = spawnPoint;
+        }
+        private void RestartPlayer()
+        {
+            transform.position = SpawnPoint.transform.position;
+            Health.Recover();
         }
     }
 }

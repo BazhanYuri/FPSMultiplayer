@@ -80,7 +80,12 @@ namespace Unity.FPS.Game
             Debug.Log("Current Health: " + CurrentHealth);
             HandleDeath();
         }
+        public void Recover()
+        {
+            CurrentHealth = MaxHealth;
 
+            m_IsDead = false;
+        }
         public void Kill()
         {
             CurrentHealth = 0f;

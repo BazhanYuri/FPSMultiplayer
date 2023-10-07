@@ -27,6 +27,7 @@ namespace Unity.FPS.Gameplay
             BindUIBuilder();
             BindSpawnPointsHolder();
             BindPlayerSpawner();
+            BindGameCore();
         }
         
         private void BindPhotonGameplayManager()
@@ -72,6 +73,12 @@ namespace Unity.FPS.Gameplay
         {
             Container
                 .BindInterfacesTo<PlayerSpawner>()
+                .AsSingle();
+        }
+        private void BindGameCore()
+        {
+            Container
+                .BindInterfacesTo<GameCore>()
                 .AsSingle();
         }
     }
