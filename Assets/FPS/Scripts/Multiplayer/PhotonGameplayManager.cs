@@ -8,6 +8,8 @@ namespace Unity.FPS.Multiplayer
 {
     public class PhotonGameplayManager : MonoBehaviourPunCallbacks, IPhotonManager
     {
+        public TeamScoreHanlder teamScoreHanlder;
+
         private Player _player;
 
         private const string BlueTeamPlayerCountKey = "BlueTeamPlayerCount";
@@ -19,6 +21,8 @@ namespace Unity.FPS.Multiplayer
         public int RedTeamPlayerCount { get; private set; }
         public int DiedBlueTeamPlayerCount { get; private set; }
         public int DiedRedTeamPlayerCount { get; private set; }
+
+        public TeamScoreHanlder  TeamScoreHanlder { get { return teamScoreHanlder; }}
 
         public event Action TeamCountUpdated;
         public event Action<TeamType> TeamWon;
@@ -109,7 +113,6 @@ namespace Unity.FPS.Multiplayer
                 { RedTeamPlayerCountKey, RedTeamPlayerCount }
             };
             PhotonNetwork.CurrentRoom.SetCustomProperties(playerCountProps);
-
         }
         
 
@@ -121,8 +124,6 @@ namespace Unity.FPS.Multiplayer
                 { DeadRedTeamPlayerCountKey, DiedRedTeamPlayerCount }
             };
             PhotonNetwork.CurrentRoom.SetCustomProperties(DeadplayerCountProps);
-
-
         }
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
@@ -179,6 +180,8 @@ namespace Unity.FPS.Multiplayer
             }
 
             TeamWon?.Invoke(winners);
+            DiedBlueTeamPlayerCount = 0;
+            DiedRedTeamPlayerCount = 0;
         }
     }
 }

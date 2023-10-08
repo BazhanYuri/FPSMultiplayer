@@ -5,6 +5,7 @@ namespace Unity.FPS.Multiplayer
 {
     public interface IPhotonManager
     {
+        public TeamScoreHanlder TeamScoreHanlder { get; }
         public int BlueTeamPlayerCount { get; }
         public int RedTeamPlayerCount { get; }
 

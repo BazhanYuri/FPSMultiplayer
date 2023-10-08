@@ -12,6 +12,7 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private Camera[] _cameras;
         [SerializeField] private PlayerInputHandler _inputHandler;
         [SerializeField] private PlayerCharacterController _characterController;
+        [SerializeField] private PlayerWeaponsManager _weaponsManager;
         [SerializeField] private Jetpack _jetpack;
         [SerializeField] private Health _health;
 
@@ -48,6 +49,7 @@ namespace Unity.FPS.Multiplayer
             _inputHandler.enabled = false;
             _characterController.enabled = false;
             _jetpack.enabled = false;
+            _weaponsManager.enabled = false;
         }
         public void Initialize(EventBus eventBus)
         {
@@ -69,7 +71,7 @@ namespace Unity.FPS.Multiplayer
             _inputHandler.enabled = true;
             _characterController.enabled = true;
             _jetpack.enabled = true;
-            gameObject.SetActive(true);
+            _weaponsManager.enabled = true;
         }
         public void SetTeam(TeamType teamType)
         {
