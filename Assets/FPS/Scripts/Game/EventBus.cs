@@ -7,6 +7,7 @@ namespace Unity.FPS.Game
     {
         public event Action PlayerSpawned;
         public event Action RoundCompleted;
+        public event Action HalfRoundsPassed;
 
 
         public void InvokePlayerSpawned()
@@ -16,6 +17,10 @@ namespace Unity.FPS.Game
         public void InvokeRoundCompleted()
         {
             RoundCompleted?.Invoke();
+        }
+        public void InvokeHalfRoundsPassed()
+        {
+            HalfRoundsPassed?.Invoke();
         }
     }
 }

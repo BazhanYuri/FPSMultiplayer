@@ -7,6 +7,11 @@ using Zenject;
 
 namespace Unity.FPS.Multiplayer
 {
+    public struct PlayerSpawnInfo
+    {
+        public SpawnPointsHolder spawnPointsHolder;
+        public int index;
+    }
     public class PlayerSpawner : IInitializable
     {
         private GameConfig _gameConfig;
@@ -36,28 +41,27 @@ namespace Unity.FPS.Multiplayer
             Cursor.visible = false;
             Player _player;
             Vector3 position = Vector3.zero;
-            if (teamType == TeamType.Red)
-            {
-                _player = PhotonNetwork.Instantiate(_gameConfig.redPlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
-            }
-            else
-            {
-                _player = PhotonNetwork.Instantiate(_gameConfig.bluePlayerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
-            }
+            _player = PhotonNetwork.Instantiate(_gameConfig.playerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
             _player.Initialize(_eventBus);
             _player.SetAsLocalMultiplayer();
             _player.SetTeam(teamType);
             _photonManager.AddPlayerToTeam(teamType, _player);
 
+
+            PlayerSpawnInfo playerSpawnInfo = new PlayerSpawnInfo();
+            playerSpawnInfo.spawnPointsHolder = _spawnPointsHolder;
+
             switch (teamType)
             {
                 case TeamType.Blue:
+                    playerSpawnInfo.index = _photonManager.BlueTeamPlayerCount;
                     position = _spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount].transform.position;
-                    _player.SetSpawnPoint(_spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount]);
+                    _player.SetSpawnPoint(_spawnPointsHolder.BlueTeamSpawnPoints[_photonManager.BlueTeamPlayerCount], playerSpawnInfo);
                     break;
                 case TeamType.Red:
+                    playerSpawnInfo.index = _photonManager.RedTeamPlayerCount;
                     position = _spawnPointsHolder.RedTeamSpawnPoints[_photonManager.RedTeamPlayerCount].transform.position;
-                    _player.SetSpawnPoint(_spawnPointsHolder.RedTeamSpawnPoints[_photonManager.BlueTeamPlayerCount]);
+                    _player.SetSpawnPoint(_spawnPointsHolder.RedTeamSpawnPoints[_photonManager.BlueTeamPlayerCount], playerSpawnInfo);
                     break;
                 default:
                     break;

@@ -27,12 +27,17 @@ namespace Unity.FPS.Gameplay
         public void Initialize()
         {
             _photonManager.TeamWon += OnTeamWinned;
+            _photonManager.TeamScoreHanlder.HalfOfRoundsPassed += OnHalfRoundsPassed;
         }
 
         private void OnTeamWinned(TeamType teamType)
         {
             GameRestarted?.Invoke();
             _eventBus.InvokeRoundCompleted();
+        }
+        private void OnHalfRoundsPassed()
+        {
+            _eventBus.InvokeHalfRoundsPassed();
         }
     }
 }

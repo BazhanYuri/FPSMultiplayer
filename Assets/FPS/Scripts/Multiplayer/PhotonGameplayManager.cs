@@ -2,6 +2,7 @@
 using System;
 using Unity.FPS.Enums;
 using UnityEngine;
+using Zenject;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Unity.FPS.Multiplayer
@@ -11,6 +12,7 @@ namespace Unity.FPS.Multiplayer
         public TeamScoreHanlder teamScoreHanlder;
 
         private Player _player;
+        private GameConfig _gameConfig;
 
         private const string BlueTeamPlayerCountKey = "BlueTeamPlayerCount";
         private const string RedTeamPlayerCountKey = "RedTeamPlayerCount";
@@ -24,9 +26,19 @@ namespace Unity.FPS.Multiplayer
 
         public TeamScoreHanlder  TeamScoreHanlder { get { return teamScoreHanlder; }}
 
+        public GameConfig GameConfig { get => _gameConfig;}
+
         public event Action TeamCountUpdated;
         public event Action<TeamType> TeamWon;
 
+
+
+
+        [Inject]
+        public void Construct(GameConfig gameConfig)
+        {
+            _gameConfig = gameConfig;
+        }
         public override void OnEnable()
         {
             base.OnEnable();

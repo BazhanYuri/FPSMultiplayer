@@ -16,11 +16,12 @@ namespace Unity.FPS.Multiplayer
         private const string BlueTeamScoreKey = "BlueTeamScore";
         private const string RedTeamScoreKey = "RedTeamScore";
 
-
+        private bool _isHalfOfRoundsPassed = false;
         public int BlueTeamScore { get; private set; }
         public int RedTeamScore { get; private set; }
 
         public event Action ScoreUpdated;
+        public event Action HalfOfRoundsPassed;
 
 
       
@@ -88,10 +89,36 @@ namespace Unity.FPS.Multiplayer
             if (isHaveScore == true)
             {
                 //Debug.Log($"BlueTeamScore: {BlueTeamScore} - RedTeamScore: {RedTeamScore}");
+                CheckIfHalfRoundsPassed();
+
                 ScoreUpdated?.Invoke();
             }
 
             
+        }
+        private void CheckIfHalfRoundsPassed()
+        {
+            if (_isHalfOfRoundsPassed == true)
+            {
+                return;
+            }
+
+            int countOfPassedRounds = BlueTeamScore + RedTeamScore;
+            if (countOfPassedRounds == _photonManager.GameConfig.countsOfRounds / 2)
+            {
+                _isHalfOfRoundsPassed = true;
+                HalfOfRoundsPassed?.Invoke();
+
+                ReverseScore();
+            }
+        }
+        private void ReverseScore()
+        {
+            int temp = BlueTeamScore;
+            BlueTeamScore = RedTeamScore;
+            RedTeamScore = temp;
+
+            UpdateScoreCount();
         }
     }
 }

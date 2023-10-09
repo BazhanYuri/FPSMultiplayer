@@ -15,9 +15,11 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private PlayerWeaponsManager _weaponsManager;
         [SerializeField] private Jetpack _jetpack;
         [SerializeField] private Health _health;
+        [SerializeField] private Transform _blueTeamSkin;
+        [SerializeField] private Transform _redTeamSkin;
 
         private EventBus _eventBus;
-
+        private PlayerSpawnInfo _playerSpawnInfo;
 
         public TeamType TeamType { get; private set; }
         public SpawnPoint SpawnPoint { get; private set; }
@@ -56,6 +58,7 @@ namespace Unity.FPS.Multiplayer
             _eventBus = eventBus;
 
             _eventBus.RoundCompleted += RestartPlayer;
+            _eventBus.HalfRoundsPassed += SwitchTeam;
         }
         public void SetAsLocalMultiplayer()
         {
@@ -76,15 +79,49 @@ namespace Unity.FPS.Multiplayer
         public void SetTeam(TeamType teamType)
         {
             TeamType = teamType;
+
+            RefreshPlayer();
         }
-        public void SetSpawnPoint(SpawnPoint spawnPoint)
+        public void SetSpawnPoint(SpawnPoint spawnPoint, PlayerSpawnInfo playerSpawnInfo)
         {
             SpawnPoint = spawnPoint;
+            _playerSpawnInfo = playerSpawnInfo;
         }
         private void RestartPlayer()
         {
             transform.position = SpawnPoint.transform.position;
             Health.Recover();
+        }
+        private void SwitchTeam()
+        {
+            switch (TeamType)
+            {
+                case TeamType.Blue:
+                    TeamType = TeamType.Red;
+                    SpawnPoint = _playerSpawnInfo.spawnPointsHolder.RedTeamSpawnPoints[_playerSpawnInfo.index];
+                    break;
+                case TeamType.Red:
+                    TeamType = TeamType.Blue;
+                    SpawnPoint = _playerSpawnInfo.spawnPointsHolder.BlueTeamSpawnPoints[_playerSpawnInfo.index];
+                    break;
+            }
+
+            RestartPlayer();
+            RefreshPlayer();
+        }
+        private void RefreshPlayer()
+        {
+            switch (TeamType)
+            {
+                case TeamType.Blue:
+                    _blueTeamSkin.gameObject.SetActive(true);
+                    _redTeamSkin.gameObject.SetActive(false);
+                    break;
+                case TeamType.Red:
+                    _blueTeamSkin.gameObject.SetActive(false);
+                    _redTeamSkin.gameObject.SetActive(true);
+                    break;
+            }
         }
     }
 }

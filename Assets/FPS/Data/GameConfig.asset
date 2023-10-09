@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dedae3dc1309295488b4ead116a5d4fc, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  countsOfRounds: 4
+  timeToRestartGameWhenGameWinned: 0
   maxBlueTeamPlayers: 3
   maxRedTeamPlayers: 3
-  bluePlayerPrefab: {fileID: 7048351705649964697, guid: ed5261a695b078549b6b2aab9bab0ede,
-    type: 3}
-  redPlayerPrefab: {fileID: 7048351705649964697, guid: 2c6b0429083105e4f9357486428224be,
+  playerPrefab: {fileID: 7048351705649964697, guid: 2c6b0429083105e4f9357486428224be,
     type: 3}
