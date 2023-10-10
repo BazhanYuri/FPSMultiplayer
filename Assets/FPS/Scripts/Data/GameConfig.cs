@@ -11,4 +11,8 @@ public class GameConfig : ScriptableObject
     public int maxBlueTeamPlayers;
     public int maxRedTeamPlayers;
     public Player playerPrefab;
+
+    [Header("For testing")]
+    public bool enableTrace;
+    public float traceTime;
 }

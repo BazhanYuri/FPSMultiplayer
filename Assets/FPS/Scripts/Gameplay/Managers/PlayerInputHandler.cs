@@ -1,4 +1,6 @@
-﻿using Unity.FPS.Game;
+﻿using System;
+using Unity.FPS.Game;
+using Unity.FPS.UI;
 using UnityEngine;
 
 namespace Unity.FPS.Gameplay
@@ -24,6 +26,8 @@ namespace Unity.FPS.Gameplay
         PlayerCharacterController m_PlayerCharacterController;
         bool m_FireInputWasHeld;
 
+        public event Action OnStoreInputDown;
+
         void Start()
         {
             m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
@@ -31,6 +35,8 @@ namespace Unity.FPS.Gameplay
                 m_PlayerCharacterController, this, gameObject);
             m_GameFlowManager = FindObjectOfType<GameFlowManager>();
             DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, PlayerInputHandler>(m_GameFlowManager, this);
+
+            FindObjectOfType<StoreUI>().SetPlayerInput(this);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -83,7 +89,7 @@ namespace Unity.FPS.Gameplay
 
             return false;
         }
-
+       
         public bool GetJumpInputHeld()
         {
             if (CanProcessInput())
@@ -93,7 +99,7 @@ namespace Unity.FPS.Gameplay
 
             return false;
         }
-
+        
         public bool GetFireInputDown()
         {
             return GetFireInputHeld() && !m_FireInputWasHeld;
@@ -171,6 +177,16 @@ namespace Unity.FPS.Gameplay
             if (CanProcessInput())
             {
                 return Input.GetButtonDown(GameConstants.k_ButtonReload);
+            }
+
+            return false;
+        }
+        public bool GetStoreInputDown()
+        {
+            if (CanProcessInput() && Input.GetButtonDown(GameConstants.k_ButtonStore))
+            {
+                OnStoreInputDown?.Invoke();
+                return true;
             }
 
             return false;

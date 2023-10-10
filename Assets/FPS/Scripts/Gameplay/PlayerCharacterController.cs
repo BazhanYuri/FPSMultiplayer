@@ -210,6 +210,10 @@ namespace Unity.FPS.Gameplay
             {
                 SetCrouchingState(!IsCrouching, false);
             }
+            if (m_InputHandler.GetStoreInputDown())
+            {
+                Debug.Log("Store button pressed");
+            }
 
             UpdateCharacterHeight(false);
 
