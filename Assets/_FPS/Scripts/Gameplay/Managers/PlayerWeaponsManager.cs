@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.FPS.Game;
+using Unity.FPS.Multiplayer;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,7 @@ namespace Unity.FPS.Gameplay
             PutUpNew,
         }
 
+        public Player player;
         [Tooltip("List of weapon the player will start with")]
         public List<WeaponController> StartingWeapons = new List<WeaponController>();
 
@@ -441,6 +443,7 @@ namespace Unity.FPS.Gameplay
                 {
                     // spawn the weapon prefab as child of the weapon socket
                     WeaponController weaponInstance = Instantiate(weaponPrefab, WeaponParentSocket);
+                    weaponInstance.Initialize(player.RecoilController); 
                     weaponInstance.transform.localPosition = Vector3.zero;
                     weaponInstance.transform.localRotation = Quaternion.identity;
 

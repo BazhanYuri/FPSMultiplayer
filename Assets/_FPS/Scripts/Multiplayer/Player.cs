@@ -20,14 +20,13 @@ namespace Unity.FPS.Multiplayer
 
         private EventBus _eventBus;
         private PlayerSpawnInfo _playerSpawnInfo;
+        private IRecoilController _recoilController;
 
         public TeamType TeamType { get; private set; }
         public SpawnPoint SpawnPoint { get; private set; }
         public Health Health { get => _health; }
+        public IRecoilController RecoilController { get => _recoilController;}
 
-
-
-       
         private void OnDisable()
         {
             _eventBus.RoundCompleted -= RestartPlayer;
@@ -53,9 +52,10 @@ namespace Unity.FPS.Multiplayer
             _jetpack.enabled = false;
             _weaponsManager.enabled = false;
         }
-        public void Initialize(EventBus eventBus)
+        public void Initialize(EventBus eventBus, IRecoilController recoilController)
         {
             _eventBus = eventBus;
+            _recoilController = recoilController;
 
             _eventBus.RoundCompleted += RestartPlayer;
             _eventBus.HalfRoundsPassed += SwitchTeam;

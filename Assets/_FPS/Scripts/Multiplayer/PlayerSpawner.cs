@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Unity.FPS.Enums;
 using Unity.FPS.Game;
+using Unity.FPS.Gameplay;
 using Unity.FPS.UI;
 using UnityEngine;
 using Zenject;
@@ -18,17 +19,19 @@ namespace Unity.FPS.Multiplayer
         private IUIBuilder _uiBuilder;
         private SpawnPointsHolder _spawnPointsHolder;
         private IPhotonManager _photonManager;
+        private IRecoilController _recoilController;
         private EventBus _eventBus;
 
 
         [Inject]
-        public void Construct(SpawnPointsHolder spawnPointsHolder, GameConfig gameConfig, IUIBuilder uIBuilder, EventBus eventBus, IPhotonManager photonManager)
+        public void Construct(SpawnPointsHolder spawnPointsHolder, GameConfig gameConfig, IUIBuilder uIBuilder, EventBus eventBus, IPhotonManager photonManager, IRecoilController recoilController)
         {
             _spawnPointsHolder = spawnPointsHolder;
             _gameConfig = gameConfig;
             _uiBuilder = uIBuilder;
             _eventBus = eventBus;
             _photonManager = photonManager;
+            _recoilController = recoilController;
         }
 
         public void Initialize()
@@ -42,7 +45,7 @@ namespace Unity.FPS.Multiplayer
             Player _player;
             Vector3 position = Vector3.zero;
             _player = PhotonNetwork.Instantiate(_gameConfig.playerPrefab.name, position, Quaternion.identity).GetComponent<Player>();
-            _player.Initialize(_eventBus);
+            _player.Initialize(_eventBus, _recoilController);
             _player.SetAsLocalMultiplayer();
             _player.SetTeam(teamType);
             _photonManager.AddPlayerToTeam(teamType, _player);

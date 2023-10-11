@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb961a022e7d6f4ebd4e93e5ed19780, type: 3}
   m_Name: WeaponConfig
   m_EditorClassIdentifier: 
-  recoilForce: {x: 0, y: 1}
+  recoilForce: {x: 0, y: 0.1}
   recoilDeltaOverTime: 1.1
-  maxLimitForRecoil: {x: 0, y: 0}
+  maxLimitForRecoil: {x: 0, y: 0.7}
+  timeToRecover: 0.3

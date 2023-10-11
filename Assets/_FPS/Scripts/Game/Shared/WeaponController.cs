@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.FPS.Gameplay;
+using Unity.FPS.Multiplayer;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Unity.FPS.Game
 {
@@ -28,6 +32,8 @@ namespace Unity.FPS.Game
     [RequireComponent(typeof(AudioSource))]
     public class WeaponController : MonoBehaviour
     {
+        [SerializeField] private WeaponConfig _weaponConfig;
+
         [Header("Information")] [Tooltip("The name that will be displayed in the UI for this weapon")]
         public string WeaponName;
 
@@ -130,6 +136,8 @@ namespace Unity.FPS.Game
         AudioSource m_ContinuousShootAudioSource = null;
         bool m_WantsToShoot = false;
 
+        private IRecoilController _recoilController;
+
         public UnityAction OnShoot;
         public event Action OnShootProcessed;
 
@@ -148,6 +156,10 @@ namespace Unity.FPS.Game
         public float CurrentCharge { get; private set; }
         public Vector3 MuzzleWorldVelocity { get; private set; }
 
+
+
+
+        
         public float GetAmmoNeededToShoot() =>
             (ShootType != WeaponShootType.Charge ? 1f : Mathf.Max(1f, AmmoUsedOnStartCharge)) /
             (MaxAmmo * BulletsPerShot);
@@ -163,6 +175,11 @@ namespace Unity.FPS.Game
 
         private Queue<Rigidbody> m_PhysicalAmmoPool;
 
+
+        public void Initialize(IRecoilController recoilController)
+        {
+            _recoilController = recoilController;
+        }
         void Awake()
         {
             m_CurrentAmmo = MaxAmmo;
@@ -336,6 +353,7 @@ namespace Unity.FPS.Game
 
             if (show && ChangeWeaponSfx)
             {
+                _recoilController.SetWeaponConfig(_weaponConfig);
                 m_ShootAudioSource.PlayOneShot(ChangeWeaponSfx);
             }
 
@@ -439,6 +457,8 @@ namespace Unity.FPS.Game
 
         void HandleShoot()
         {
+            _recoilController.OnShoot();
+
             int bulletsPerShotFinal = ShootType == WeaponShootType.Charge
                 ? Mathf.CeilToInt(CurrentCharge * BulletsPerShot)
                 : BulletsPerShot;

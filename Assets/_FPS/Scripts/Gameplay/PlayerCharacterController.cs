@@ -220,6 +220,10 @@ namespace Unity.FPS.Gameplay
             HandleCharacterMovement();
         }
 
+        public void MoveCameraVertical(float value)
+        {
+            m_CameraVerticalAngle += value;
+        }
         void OnDie()
         {
             IsDead = true;
