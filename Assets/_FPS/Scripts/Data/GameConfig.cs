@@ -15,4 +15,7 @@ public class GameConfig : ScriptableObject
     [Header("For testing")]
     public bool enableTrace;
     public float traceTime;
+    public float traceWidth;
+    public Color traceColor;
+    public Material traceMaterial;
 }

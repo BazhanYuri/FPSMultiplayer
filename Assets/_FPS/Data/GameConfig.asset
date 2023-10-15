@@ -18,3 +18,8 @@ MonoBehaviour:
   maxRedTeamPlayers: 3
   playerPrefab: {fileID: 7048351705649964697, guid: 2c6b0429083105e4f9357486428224be,
     type: 3}
+  enableTrace: 0
+  traceTime: 10
+  traceWidth: 0.01
+  traceColor: {r: 0, g: 1, b: 0.1187284, a: 1}
+  traceMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}

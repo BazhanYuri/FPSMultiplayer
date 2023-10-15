@@ -136,7 +136,10 @@ namespace Unity.FPS.Game
         AudioSource m_ContinuousShootAudioSource = null;
         bool m_WantsToShoot = false;
 
+        private GameConfig _gameConfig;
+
         private IRecoilController _recoilController;
+        private ISpreadController _spreadController;
 
         public UnityAction OnShoot;
         public event Action OnShootProcessed;
@@ -176,9 +179,14 @@ namespace Unity.FPS.Game
         private Queue<Rigidbody> m_PhysicalAmmoPool;
 
 
-        public void Initialize(IRecoilController recoilController)
+
+       
+
+        public void Initialize(IRecoilController recoilController, ISpreadController spreadController, GameConfig gameConfig)
         {
             _recoilController = recoilController;
+            _spreadController = spreadController;
+            _gameConfig = gameConfig;
         }
         void Awake()
         {
@@ -354,6 +362,7 @@ namespace Unity.FPS.Game
             if (show && ChangeWeaponSfx)
             {
                 _recoilController.SetWeaponConfig(_weaponConfig);
+                _spreadController.SetWeaponConfig(_weaponConfig);
                 m_ShootAudioSource.PlayOneShot(ChangeWeaponSfx);
             }
 
@@ -458,6 +467,7 @@ namespace Unity.FPS.Game
         void HandleShoot()
         {
             _recoilController.OnShoot();
+            _spreadController.OnShoot();
 
             int bulletsPerShotFinal = ShootType == WeaponShootType.Charge
                 ? Mathf.CeilToInt(CurrentCharge * BulletsPerShot)
@@ -467,9 +477,32 @@ namespace Unity.FPS.Game
             for (int i = 0; i < bulletsPerShotFinal; i++)
             {
                 Vector3 shotDirection = GetShotDirectionWithinSpread(WeaponMuzzle);
+                shotDirection.y += _spreadController.CurrentSpread.x / 100f;
+                shotDirection.z += _spreadController.CurrentSpread.y / 100f;
+
+                if (_gameConfig.enableTrace == true)
+                {
+                    GameObject lineObject = new GameObject("BulletLine");
+                    LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
+                    lineRenderer.startWidth = _gameConfig.traceWidth; // Adjust the width as needed
+                    lineRenderer.endWidth = _gameConfig.traceWidth; // Adjust the width as needed
+                    lineRenderer.SetColors(_gameConfig.traceColor, _gameConfig.traceColor);
+                    lineRenderer.material = _gameConfig.traceMaterial;
+
+                    // Set the positions for the LineRenderer (start and end points)
+                    lineRenderer.SetPosition(0, WeaponMuzzle.position);
+                    lineRenderer.SetPosition(1, WeaponMuzzle.position + shotDirection * 1000f);
+
+                    // Schedule the destruction of the line after a short duration
+                    Destroy(lineObject, _gameConfig.traceTime);
+                }
+
+                
+
                 ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
                     Quaternion.LookRotation(shotDirection));
                 newProjectile.Shoot(this);
+
             }
 
             // muzzle flash
@@ -513,7 +546,7 @@ namespace Unity.FPS.Game
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
             float spreadAngleRatio = BulletSpreadAngle / 180f;
-            Vector3 spreadWorldDirection = Vector3.Slerp(shootTransform.forward, UnityEngine.Random.insideUnitSphere,
+            Vector3 spreadWorldDirection = Vector3.Slerp(Camera.main.transform.forward, UnityEngine.Random.insideUnitSphere,
                 spreadAngleRatio);
 
             return spreadWorldDirection;

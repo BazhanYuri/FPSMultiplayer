@@ -443,7 +443,7 @@ namespace Unity.FPS.Gameplay
                 {
                     // spawn the weapon prefab as child of the weapon socket
                     WeaponController weaponInstance = Instantiate(weaponPrefab, WeaponParentSocket);
-                    weaponInstance.Initialize(player.RecoilController); 
+                    weaponInstance.Initialize(player.RecoilController, player.SpreadController, player.GameConfig); 
                     weaponInstance.transform.localPosition = Vector3.zero;
                     weaponInstance.transform.localRotation = Quaternion.identity;
 

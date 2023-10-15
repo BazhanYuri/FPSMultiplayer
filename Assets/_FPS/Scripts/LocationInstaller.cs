@@ -24,6 +24,7 @@ namespace Unity.FPS.Gameplay
             BindPhotonGameplayManager();
             BindEventBus();
             BindRecoilController();
+            BindSprayController();
             BindUIFactories();
             BindUIBuilder();
             BindSpawnPointsHolder();
@@ -53,6 +54,12 @@ namespace Unity.FPS.Gameplay
         {
             Container
                 .BindInterfacesTo<RecoilController>()
+                .AsSingle();
+        }
+        private void BindSprayController()
+        {
+            Container
+                .BindInterfacesTo<SpreadController>()
                 .AsSingle();
         }
         private void BindUIFactories()

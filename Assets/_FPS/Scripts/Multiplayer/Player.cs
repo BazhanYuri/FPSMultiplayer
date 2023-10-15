@@ -19,13 +19,17 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private Transform _redTeamSkin;
 
         private EventBus _eventBus;
+        private GameConfig _gameConfig;
         private PlayerSpawnInfo _playerSpawnInfo;
         private IRecoilController _recoilController;
+        private ISpreadController _spreadController;
 
         public TeamType TeamType { get; private set; }
         public SpawnPoint SpawnPoint { get; private set; }
         public Health Health { get => _health; }
         public IRecoilController RecoilController { get => _recoilController;}
+        public ISpreadController SpreadController { get => _spreadController; }
+        public GameConfig GameConfig { get => _gameConfig; }
 
         private void OnDisable()
         {
@@ -52,10 +56,12 @@ namespace Unity.FPS.Multiplayer
             _jetpack.enabled = false;
             _weaponsManager.enabled = false;
         }
-        public void Initialize(EventBus eventBus, IRecoilController recoilController)
+        public void Initialize(EventBus eventBus, IRecoilController recoilController, ISpreadController spreadController, GameConfig gameConfig)
         {
             _eventBus = eventBus;
             _recoilController = recoilController;
+            _spreadController = spreadController;
+            _gameConfig = gameConfig;
 
             _eventBus.RoundCompleted += RestartPlayer;
             _eventBus.HalfRoundsPassed += SwitchTeam;

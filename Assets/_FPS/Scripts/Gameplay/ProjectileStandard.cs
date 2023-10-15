@@ -23,6 +23,9 @@ namespace Unity.FPS.Gameplay
         [Tooltip("VFX prefab to spawn upon impact")]
         public GameObject ImpactVfx;
 
+        [Tooltip("Decoil prefab to spawn upon impact")]
+        public GameObject Decoil;
+
         [Tooltip("LifeTime of the VFX before being destroyed")]
         public float ImpactVfxLifetime = 5f;
 
@@ -257,6 +260,8 @@ namespace Unity.FPS.Gameplay
             {
                 AudioUtility.CreateSFX(ImpactSfxClip, point, AudioUtility.AudioGroups.Impact, 1f, 3f);
             }
+            PhotonNetwork.Instantiate(Decoil.name, point,
+                    Quaternion.LookRotation(normal));
 
             // Self Destruct
             Destroy(this.gameObject);
