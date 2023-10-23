@@ -477,9 +477,7 @@ namespace Unity.FPS.Game
             for (int i = 0; i < bulletsPerShotFinal; i++)
             {
                 Vector3 shotDirection = GetShotDirectionWithinSpread(WeaponMuzzle);
-                shotDirection.y += _spreadController.CurrentSpread.x / 100f;
-                shotDirection.z += _spreadController.CurrentSpread.y / 100f;
-
+                
                 if (_gameConfig.enableTrace == true)
                 {
                     GameObject lineObject = new GameObject("BulletLine");
@@ -546,10 +544,22 @@ namespace Unity.FPS.Game
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
             float spreadAngleRatio = BulletSpreadAngle / 180f;
-            Vector3 spreadWorldDirection = Vector3.Slerp(Camera.main.transform.forward, UnityEngine.Random.insideUnitSphere,
-                spreadAngleRatio);
 
-            return spreadWorldDirection;
+            // Get the initial shooting direction from the shootTransform.
+            Vector3 initialDirection = shootTransform.forward;
+
+            // Generate a random spread within the specified angle.
+            float randomAngle = UnityEngine.Random.Range(0f, spreadAngleRatio) * 360f;
+            Vector3 spreadDirection = Quaternion.AngleAxis(randomAngle, Vector3.up) * initialDirection;
+
+            // Apply spread factors along the y and z axes.
+            spreadDirection += shootTransform.up * (_spreadController.CurrentSpread.x / 100f);
+            spreadDirection += shootTransform.right * (_spreadController.CurrentSpread.y / 100f);
+
+            // Normalize the final spread direction to ensure it's a unit vector.
+            spreadDirection.Normalize();
+
+            return spreadDirection;
         }
     }
 }

@@ -33,23 +33,23 @@ namespace Unity.FPS.Gameplay
         {
             Vector3 tempSpread = CurrentSpread;
 
-            int randomSignY = UnityEngine.Random.Range(0, 2) * 2 - 1; // Randomly generates -1 or 1
-            int randomSignX = UnityEngine.Random.Range(0, 2) * 2 - 1; // Randomly generates -1 or 1
+            if (_weaponConfig.spreads.Length > _recoilController.CurrentFireCount)
+            {
+                Spread spreadData = _weaponConfig.spreads[_recoilController.CurrentFireCount];
+                tempSpread.x += spreadData.delta.x;
 
-            tempSpread.y += randomSignY * (_weaponConfig.spreadForce.y + _weaponConfig.spreadDeltaOverTime.y) * _recoilController.CurrentFireCount;
-            tempSpread.x += randomSignX * (_weaponConfig.spreadForce.x + _weaponConfig.spreadDeltaOverTime.x) * _recoilController.CurrentFireCount;
+                float randomX = spreadData.randomize * spreadData.delta.x;
+                randomX = Random.Range(-randomX, randomX);
+                tempSpread.x += randomX;
 
-            tempSpread = ClampVector2(tempSpread, -_weaponConfig.maxLimitForSpread, _weaponConfig.maxLimitForSpread);
+                tempSpread.y += spreadData.delta.y;
+
+                float randomY = spreadData.randomize * spreadData.delta.y;
+                randomY = Random.Range(-randomY, randomY);
+                tempSpread.y += randomY;
+            }
 
             CurrentSpread = tempSpread;
-        }
-
-        public Vector2 ClampVector2(Vector2 inputVector, Vector2 minRange, Vector2 maxRange)
-        {
-            float clampedX = Mathf.Clamp(inputVector.x, minRange.x, maxRange.x);
-            float clampedY = Mathf.Clamp(inputVector.y, minRange.y, maxRange.y);
-
-            return new Vector2(clampedX, clampedY);
         }
         private void OnCooldownEnded()
         {

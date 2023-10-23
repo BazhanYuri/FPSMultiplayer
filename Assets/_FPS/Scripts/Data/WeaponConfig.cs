@@ -9,10 +9,15 @@ public class WeaponConfig : ScriptableObject
     public Vector2 recoilDeltaOverTime = new Vector2(0, 0);
     public Vector2 maxLimitForRecoil;
     [Header("Spread")]
-    public Vector2 spreadForce = new Vector2(0, 0);
-    public Vector2 spreadDeltaOverTime = new Vector2(0, 0);
-    public Vector2 maxLimitForSpread;
+    public Spread[] spreads;
 
     [Header("MAIN")]
     public float timeToRecover = 0.5f;
+}
+
+[System.Serializable]
+public struct Spread
+{
+    public Vector2 delta;
+    [Range (0, 1)] public float randomize;
 }
