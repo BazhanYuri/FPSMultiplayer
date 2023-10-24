@@ -5,18 +5,16 @@ using GD.MinMaxSlider;
 public class WeaponConfig : ScriptableObject
 {
     [Header("Recoil")]
-    public Vector2 recoilForce = new Vector2(0, 1);
-    public Vector2 recoilDeltaOverTime = new Vector2(0, 0);
-    public Vector2 maxLimitForRecoil;
+    public ShootData[] recoils;
     [Header("Spread")]
-    public Spread[] spreads;
+    public ShootData[] spreads;
 
     [Header("MAIN")]
     public float timeToRecover = 0.5f;
 }
 
 [System.Serializable]
-public struct Spread
+public struct ShootData
 {
     public Vector2 delta;
     [Range (0, 1)] public float randomize;

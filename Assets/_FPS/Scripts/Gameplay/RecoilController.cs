@@ -35,7 +35,7 @@ namespace Unity.FPS.Gameplay
 
             if (_weaponConfig.spreads.Length > _recoilController.CurrentFireCount)
             {
-                Spread spreadData = _weaponConfig.spreads[_recoilController.CurrentFireCount];
+                ShootData spreadData = _weaponConfig.spreads[_recoilController.CurrentFireCount];
                 tempSpread.x += spreadData.delta.x;
 
                 float randomX = spreadData.randomize * spreadData.delta.x;
@@ -90,22 +90,25 @@ namespace Unity.FPS.Gameplay
         }
         private void CalculateRecoil()
         {
-            int randomSign = UnityEngine.Random.Range(0, 2) * 2 - 1; // Randomly generates -1 or 1
+            if (_weaponConfig.recoils.Length > CurrentFireCount)
+            {
+                ShootData recoilData = _weaponConfig.recoils[CurrentFireCount];
+                _currentRecoilForce.x += recoilData.delta.x;
 
-            _currentRecoilForce.y += (_weaponConfig.recoilForce.y + _weaponConfig.recoilDeltaOverTime.y) * _currentFireCount;
-            _currentRecoilForce.x += (randomSign * (_weaponConfig.recoilForce.x + _weaponConfig.recoilDeltaOverTime.x) * _currentFireCount);
+                float randomX = recoilData.randomize * recoilData.delta.x;
+                randomX = Random.Range(-randomX, randomX);
+                _currentRecoilForce.x += randomX;
 
-            _currentRecoilForce = ClampVector2(_currentRecoilForce, -_weaponConfig.maxLimitForRecoil, _weaponConfig.maxLimitForRecoil);
+                _currentRecoilForce.y += recoilData.delta.y;
+
+                float randomY = recoilData.randomize * recoilData.delta.y;
+                randomY = Random.Range(-randomY, randomY);
+                _currentRecoilForce.y += randomY;
+            }
+
 
             _playerCharacterController.StopAllCoroutines();
             _playerCharacterController.StartCoroutine(CoolDown());
-        }
-        public Vector2 ClampVector2(Vector2 inputVector, Vector2 minRange, Vector2 maxRange)
-        {
-            float clampedX = Mathf.Clamp(inputVector.x, minRange.x, maxRange.x);
-            float clampedY = Mathf.Clamp(inputVector.y, minRange.y, maxRange.y);
-
-            return new Vector2(clampedX, clampedY);
         }
         private IEnumerator CoolDown()
         {

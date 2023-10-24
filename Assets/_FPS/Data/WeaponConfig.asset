@@ -12,11 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb961a022e7d6f4ebd4e93e5ed19780, type: 3}
   m_Name: WeaponConfig
   m_EditorClassIdentifier: 
-  recoilForce: {x: 0, y: 0}
-  recoilDeltaOverTime: {x: 0, y: 0}
-  maxLimitForRecoil: {x: 0, y: 0}
+  recoils:
+  - delta: {x: 0, y: 0}
+    randomize: 0
+  - delta: {x: -0.1, y: 0.1}
+    randomize: 0
+  - delta: {x: 0.1, y: 0}
+    randomize: 0
+  - delta: {x: 0, y: 0.3}
+    randomize: 0
+  - delta: {x: 0.3, y: 0}
+    randomize: 0
+  - delta: {x: -0.1, y: -0.1}
+    randomize: 0
+  - delta: {x: 0.1, y: 0}
+    randomize: 0
+  - delta: {x: 0.1, y: -0.4}
+    randomize: 0
+  - delta: {x: 0, y: 0.1}
+    randomize: 0
+  - delta: {x: -0.1, y: 0.1}
+    randomize: 0
   spreads:
-  - delta: {x: 1, y: -1}
+  - delta: {x: 0, y: 0}
     randomize: 0
   - delta: {x: 1, y: 0}
     randomize: 0
