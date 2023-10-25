@@ -32,10 +32,11 @@ namespace Unity.FPS.Gameplay
         private void CalculateSpread()
         {
             Vector3 tempSpread = CurrentSpread;
+            int currentFireCount = _recoilController.CurrentFireCount - 1;
 
-            if (_weaponConfig.spreads.Length > _recoilController.CurrentFireCount)
+            if (_weaponConfig.spreads.Length > currentFireCount)
             {
-                ShootData spreadData = _weaponConfig.spreads[_recoilController.CurrentFireCount];
+                ShootData spreadData = _weaponConfig.spreads[currentFireCount];
                 tempSpread.x += spreadData.delta.x;
 
                 float randomX = spreadData.randomize * spreadData.delta.x;
@@ -63,7 +64,7 @@ namespace Unity.FPS.Gameplay
         private WeaponConfig _weaponConfig;
 
         private Vector2 _currentRecoilForce;
-        private int _currentFireCount;
+        private int _currentFireCount = 0;
 
         public event System.Action CooldDownEnded;
 

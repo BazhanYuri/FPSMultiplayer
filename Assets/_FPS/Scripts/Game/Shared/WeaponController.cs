@@ -495,12 +495,13 @@ namespace Unity.FPS.Game
                     Destroy(lineObject, _gameConfig.traceTime);
                 }
 
+
+
                 
 
                 ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
-                    Quaternion.LookRotation(shotDirection));
+                        Quaternion.LookRotation(shotDirection));
                 newProjectile.Shoot(this);
-
             }
 
             // muzzle flash
@@ -543,18 +544,30 @@ namespace Unity.FPS.Game
 
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
-            float spreadAngleRatio = BulletSpreadAngle / 180f;
+            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+            Vector3 shotDirection;
 
-            // Get the initial shooting direction from the shootTransform.
-            Vector3 initialDirection = shootTransform.forward;
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                shotDirection = hitInfo.point - WeaponMuzzle.position;
+            }
+            else
+            {
+                // Use the camera's forward direction as the default direction
+                shotDirection = ray.direction;
+            }
+
+            shotDirection.Normalize();
+
+            Vector3 spreadDirection = shotDirection;
 
             // Generate a random spread within the specified angle.
-            float randomAngle = UnityEngine.Random.Range(0f, spreadAngleRatio) * 360f;
-            Vector3 spreadDirection = Quaternion.AngleAxis(randomAngle, Vector3.up) * initialDirection;
+            
 
             // Apply spread factors along the y and z axes.
-            spreadDirection += shootTransform.up * (_spreadController.CurrentSpread.x / 100f);
-            spreadDirection += shootTransform.right * (_spreadController.CurrentSpread.y / 100f);
+            spreadDirection += Camera.main.transform.up * (_spreadController.CurrentSpread.y / 100f);
+            spreadDirection += Camera.main.transform.right * (_spreadController.CurrentSpread.x / 100f);
 
             // Normalize the final spread direction to ensure it's a unit vector.
             spreadDirection.Normalize();
