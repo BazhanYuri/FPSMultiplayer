@@ -15,21 +15,29 @@ MonoBehaviour:
   recoils:
   - delta: {x: 0, y: 0}
     randomize: 0
+  - delta: {x: 0, y: 0.1}
+    randomize: 0.621
+  - delta: {x: 0.1, y: 0}
+    randomize: 0
+  - delta: {x: 0, y: 0.1}
+    randomize: 0
   - delta: {x: 0, y: 0}
+    randomize: 0
+  - delta: {x: 0, y: 0.1}
+    randomize: 0
+  - delta: {x: -0.1, y: 0}
+    randomize: 0
+  - delta: {x: 0, y: 0.1}
     randomize: 0
   - delta: {x: 0, y: 0}
     randomize: 0
   - delta: {x: 0, y: 0}
     randomize: 0
-  - delta: {x: 0, y: 0}
+  - delta: {x: -0.1, y: 0.1}
     randomize: 0
-  - delta: {x: 0, y: 0}
+  - delta: {x: 0, y: -0.1}
     randomize: 0
-  - delta: {x: 0, y: 0}
-    randomize: 0
-  - delta: {x: 0, y: 0}
-    randomize: 0
-  - delta: {x: 0, y: 0}
+  - delta: {x: 0, y: 0.1}
     randomize: 0
   spreads:
   - delta: {x: 0, y: 0}
