@@ -143,6 +143,8 @@ namespace Unity.FPS.Game
 
         public UnityAction OnShoot;
         public event Action OnShootProcessed;
+        public event Action OnAmmoUpdated;
+        public event Action OnAmmoReloaded;
 
         int m_CarriedPhysicalBullets;
         float m_CurrentAmmo;
@@ -173,6 +175,7 @@ namespace Unity.FPS.Game
         AudioSource m_ShootAudioSource;
 
         public bool IsReloading { get; private set; }
+        public float CurrentAmmo { get => m_CurrentAmmo;}
 
         const string k_AnimAttackParameter = "Attack";
 
@@ -244,10 +247,12 @@ namespace Unity.FPS.Game
         {
             if (m_CarriedPhysicalBullets > 0)
             {
-                m_CurrentAmmo = Mathf.Min(m_CarriedPhysicalBullets, ClipSize);
+                m_CurrentAmmo = Mathf.Min(MaxAmmo, ClipSize);
             }
 
             IsReloading = false;
+            OnAmmoUpdated?.Invoke();
+            OnAmmoReloaded?.Invoke();
         }
 
         public void StartReloadAnimation()
@@ -256,6 +261,7 @@ namespace Unity.FPS.Game
             {
                 GetComponent<Animator>().SetTrigger("Reload");
                 IsReloading = true;
+                Reload();
             }
         }
 
@@ -424,7 +430,7 @@ namespace Unity.FPS.Game
             {
                 HandleShoot();
                 m_CurrentAmmo -= 1f;
-
+                OnAmmoUpdated?.Invoke();
                 return true;
             }
 
@@ -540,6 +546,7 @@ namespace Unity.FPS.Game
 
             OnShoot?.Invoke();
             OnShootProcessed?.Invoke();
+            OnAmmoUpdated?.Invoke();
         }
 
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
