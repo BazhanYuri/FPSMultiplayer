@@ -247,7 +247,14 @@ namespace Unity.FPS.Game
         {
             if (m_CarriedPhysicalBullets > 0)
             {
-                m_CurrentAmmo = Mathf.Min(MaxAmmo, ClipSize);
+                if (m_CarriedPhysicalBullets < MaxAmmo)
+                {
+                    m_CurrentAmmo = m_CarriedPhysicalBullets;
+                }
+                else 
+                { 
+                    m_CurrentAmmo = Mathf.Min(MaxAmmo, ClipSize);
+                }
             }
 
             IsReloading = false;
