@@ -2,6 +2,8 @@
 using UnityEditor;
 using GD.MinMaxSlider;
 
+
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(MinMaxSliderAttribute))]
 public class MinMaxSliderDrawer : PropertyDrawer {
 
@@ -106,3 +108,4 @@ public class MinMaxSliderDrawer : PropertyDrawer {
     }
     
 } 
+#endif

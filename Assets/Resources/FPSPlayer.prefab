@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb97e5e3da19424fbd8c08c57f40fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _photonView: {fileID: 5505778508003243703}
   _cameras:
   - {fileID: 2825676867459081107}
   - {fileID: 5455445161440059533}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using Unity.FPS.Enums;
 using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
@@ -9,6 +10,7 @@ namespace Unity.FPS.Multiplayer
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private PhotonView _photonView;
         [SerializeField] private Camera[] _cameras;
         [SerializeField] private PlayerInputHandler _inputHandler;
         [SerializeField] private PlayerCharacterController _characterController;
@@ -18,13 +20,23 @@ namespace Unity.FPS.Multiplayer
         [SerializeField] private Transform _blueTeamSkin;
         [SerializeField] private Transform _redTeamSkin;
 
+        private TeamType _teamType;
+        private Vector3 _skinSizeTemp = new Vector3(1.2033f, 1.2033f, 1.2033f);
         private EventBus _eventBus;
         private GameConfig _gameConfig;
         private PlayerSpawnInfo _playerSpawnInfo;
         private IRecoilController _recoilController;
         private ISpreadController _spreadController;
 
-        public TeamType TeamType { get; private set; }
+        public TeamType TeamType
+        {
+            get => _teamType;
+            private set
+            {
+                _teamType = value;
+                RefreshPlayer();
+            }
+        }
         public SpawnPoint SpawnPoint { get; private set; }
         public Health Health { get => _health; }
         public IRecoilController RecoilController { get => _recoilController;}
@@ -81,12 +93,31 @@ namespace Unity.FPS.Multiplayer
             _characterController.enabled = true;
             _jetpack.enabled = true;
             _weaponsManager.enabled = true;
+
+            RefreshPlayer();
         }
         public void SetTeam(TeamType teamType)
         {
             TeamType = teamType;
-
-            RefreshPlayer();
+            _photonView.RPC("SyncTeamType", RpcTarget.All, teamType);
+        }
+        [PunRPC]
+        private void SyncTeamType(TeamType teamType)
+        {
+            TeamType = teamType;
+        }
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // Writing data to the network
+                stream.SendNext(TeamType);
+            }
+            else
+            {
+                // Reading data from the network
+                TeamType = (TeamType)stream.ReceiveNext();
+            }
         }
         public void SetSpawnPoint(SpawnPoint spawnPoint, PlayerSpawnInfo playerSpawnInfo)
         {
@@ -127,6 +158,19 @@ namespace Unity.FPS.Multiplayer
                     _blueTeamSkin.gameObject.SetActive(false);
                     _redTeamSkin.gameObject.SetActive(true);
                     break;
+            }
+
+            // Disable the player's own skin if it's the local player.
+            if (_photonView.IsMine)
+            {
+                if (TeamType == TeamType.Blue)
+                {
+                    _blueTeamSkin.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _redTeamSkin.gameObject.SetActive(false);
+                }
             }
         }
     }
