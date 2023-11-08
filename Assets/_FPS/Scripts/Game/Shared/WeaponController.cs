@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.FPS.Gameplay;
 using Unity.FPS.Multiplayer;
@@ -243,8 +244,9 @@ namespace Unity.FPS.Game
         void PlaySFX(AudioClip sfx) => AudioUtility.CreateSFX(sfx, transform.position, AudioUtility.AudioGroups.WeaponShoot, 0.0f);
 
 
-        void Reload()
+        IEnumerator Reload()
         {
+            yield return new WaitForSeconds(_weaponConfig.standartReloadTime);
             if (m_CarriedPhysicalBullets > 0)
             {
                 if (m_CarriedPhysicalBullets < MaxAmmo)
@@ -268,7 +270,7 @@ namespace Unity.FPS.Game
             {
                 GetComponent<Animator>().SetTrigger("Reload");
                 IsReloading = true;
-                Reload();
+                StartCoroutine(Reload());
             }
         }
 

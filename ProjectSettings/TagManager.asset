@@ -8,10 +8,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Shell
   - Water
   - UI
-  - 
+  - Player
   - 
   - PostProcessing
   - 

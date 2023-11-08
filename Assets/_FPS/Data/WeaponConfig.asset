@@ -81,3 +81,4 @@ MonoBehaviour:
   - delta: {x: 0, y: 0}
     randomize: 0
   timeToRecover: 0.3
+  standartReloadTime: 3
