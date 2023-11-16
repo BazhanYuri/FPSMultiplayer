@@ -42,6 +42,8 @@ namespace Unity.FPS.Multiplayer
         public IRecoilController RecoilController { get => _recoilController;}
         public ISpreadController SpreadController { get => _spreadController; }
         public GameConfig GameConfig { get => _gameConfig; }
+        public static Player Instance { get; set; }
+        public PlayerWeaponsManager WeaponsManager { get => _weaponsManager;}
 
         private void OnDisable()
         {
@@ -50,6 +52,7 @@ namespace Unity.FPS.Multiplayer
 
         private void Awake()
         {
+            Instance = this;
             DisableAll();
         }
         private void DisableAll()

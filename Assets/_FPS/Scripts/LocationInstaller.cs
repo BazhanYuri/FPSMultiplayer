@@ -30,6 +30,7 @@ namespace Unity.FPS.Gameplay
             BindSpawnPointsHolder();
             BindPlayerSpawner();
             BindGameCore();
+            BindWallet();
         }
         
         private void BindPhotonGameplayManager()
@@ -93,6 +94,12 @@ namespace Unity.FPS.Gameplay
         {
             Container
                 .BindInterfacesTo<GameCore>()
+                .AsSingle();
+        }
+        private void BindWallet()
+        {
+            Container
+                .BindInterfacesTo<Wallet>()
                 .AsSingle();
         }
         

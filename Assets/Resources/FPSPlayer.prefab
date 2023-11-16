@@ -1730,8 +1730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7048351705649964697}
-  StartingWeapons:
-  - {fileID: 8323776800172828795, guid: b318fabc73446b746a1005cede0c4ceb, type: 3}
+  StartingWeapons: []
   WeaponCamera: {fileID: 5455445161440059533}
   WeaponParentSocket: {fileID: 7065129485150394683}
   DefaultWeaponPosition: {fileID: 7521229272608620088}

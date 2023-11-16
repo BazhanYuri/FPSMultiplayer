@@ -1,4 +1,7 @@
-﻿using Unity.FPS.Gameplay;
+﻿using Photon.Realtime;
+using Unity.FPS.Gameplay;
+using Unity.FPS.Multiplayer;
+using UnityEngine;
 
 namespace Unity.FPS.UI
 {
@@ -24,13 +27,25 @@ namespace Unity.FPS.UI
 
             if (_isStoreOpened)
             {
-                Show();
+                ShowStore();
             }
             else
             {
-                Hide();
+                HideShow();
             }
 
+        }
+        private void ShowStore()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Show();
+        }
+        private void HideShow()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Hide();
         }
     }
 }

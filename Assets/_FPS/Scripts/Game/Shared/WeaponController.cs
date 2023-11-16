@@ -177,6 +177,7 @@ namespace Unity.FPS.Game
 
         public bool IsReloading { get; private set; }
         public float CurrentAmmo { get => m_CurrentAmmo;}
+        public WeaponConfig WeaponConfig { get => _weaponConfig;}
 
         const string k_AnimAttackParameter = "Attack";
 

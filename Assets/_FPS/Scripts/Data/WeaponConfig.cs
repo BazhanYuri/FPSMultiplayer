@@ -12,6 +12,7 @@ public class WeaponConfig : ScriptableObject
     [Header("MAIN")]
     public float timeToRecover = 0.5f;
     public float standartReloadTime = 1f;
+    public int price = 1000;
 }
 
 [System.Serializable]

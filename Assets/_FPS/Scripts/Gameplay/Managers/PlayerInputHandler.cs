@@ -183,7 +183,7 @@ namespace Unity.FPS.Gameplay
         }
         public bool GetStoreInputDown()
         {
-            if (CanProcessInput() && Input.GetButtonDown(GameConstants.k_ButtonStore))
+            if (Input.GetButtonDown(GameConstants.k_ButtonStore))
             {
                 OnStoreInputDown?.Invoke();
                 return true;
