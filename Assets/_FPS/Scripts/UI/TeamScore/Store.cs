@@ -7,6 +7,7 @@ namespace Unity.FPS.UI
     public class Store : MonoBehaviour
     {
         [SerializeField] private WeaponBuySlot[] _weaponBuySlots;
+        [SerializeField] private StoreUI _storeUI;
 
 
 
@@ -20,6 +21,7 @@ namespace Unity.FPS.UI
 
         private void OnEnable()
         {
+            _wallet.OnAmountChanged += MoneyUpdated;
             _wallet.AddAmount(10000);
             foreach (var weaponBuySlot in _weaponBuySlots)
             {
@@ -30,6 +32,7 @@ namespace Unity.FPS.UI
 
         private void OnDisable()
         {
+            _wallet.OnAmountChanged -= MoneyUpdated;
             foreach (var weaponBuySlot in _weaponBuySlots)
             {
                 weaponBuySlot.OnWeaponClicked -= OnWeaponClicked;
@@ -60,6 +63,11 @@ namespace Unity.FPS.UI
             {
                 weaponBuySlot.UpdateColor(IsPriceEnough(weaponBuySlot.Weapon.WeaponConfig.price));
             }
+        }
+        private void MoneyUpdated(int amount)
+        {
+            UpdatePrices();
+            _storeUI.UpdateMoney(amount);
         }
     }
 }

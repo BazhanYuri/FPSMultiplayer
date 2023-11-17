@@ -1,4 +1,5 @@
 ﻿using Photon.Realtime;
+using TMPro;
 using Unity.FPS.Gameplay;
 using Unity.FPS.Multiplayer;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Unity.FPS.UI
 {
     public class StoreUI : UIComponent
     {
+        [SerializeField] private TextMeshProUGUI _moneyText;
         private PlayerInputHandler _playerInputHandler;
         private bool _isStoreOpened = false;
 
@@ -20,6 +22,10 @@ namespace Unity.FPS.UI
         {
             _playerInputHandler = playerInputHandler;
             _playerInputHandler.OnStoreInputDown += SwitchStore;
+        }
+        public void UpdateMoney(int money)
+        {
+            _moneyText.text = money.ToString() + "@";
         }
         private void SwitchStore()
         {
