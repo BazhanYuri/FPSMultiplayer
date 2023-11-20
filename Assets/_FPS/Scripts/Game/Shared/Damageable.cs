@@ -1,27 +1,18 @@
 ﻿using Photon.Pun;
+using Unity.FPS.Enums;
 using UnityEngine;
 
 namespace Unity.FPS.Game
 {
     public class Damageable : MonoBehaviour
     {
-        [Tooltip("Multiplier to apply to the received damage")]
-        public float DamageMultiplier = 1f;
+        public Health health;
+        public PlayerPart playerPart;
+        public PlayerDamageConfig playerDamageConfig;
+        public bool isOnline;
 
-        [Range(0, 1)] [Tooltip("Multiplier to apply to self damage")]
-        public float SensibilityToSelfdamage = 0.5f;
 
-        public Health Health { get; private set; }
-
-        void Awake()
-        {
-            // find the health component either at the same level, or higher in the hierarchy
-            Health = GetComponent<Health>();
-            if (!Health)
-            {
-                Health = GetComponentInParent<Health>();
-            }
-        }
+        public Health Health { get => health; set => health = value; }
 
         public void InflictDamage(float damage, bool isExplosionDamage, GameObject damageSource)
         {
@@ -29,21 +20,26 @@ namespace Unity.FPS.Game
             {
                 var totalDamage = damage;
 
-                // skip the crit multiplier if it's from an explosion
-                if (!isExplosionDamage)
-                {
-                    totalDamage *= DamageMultiplier;
-                }
+                totalDamage = damage * playerDamageConfig.GetMultiplayer(playerPart);
 
-                // potentially reduce damages if inflicted by self
-                if (Health.gameObject == damageSource)
-                {
-                    totalDamage *= SensibilityToSelfdamage;
-                }
 
-                // apply the damages
-                Health.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, totalDamage);
+                if (isOnline == true)
+                {
+                    TookDamageOnline(totalDamage);
+                }
+                else
+                {
+                    TookDamageOffline(totalDamage);
+                }
             }
+        }
+        private void TookDamageOnline(float damage)
+        {
+            Health.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
+        }
+        private void TookDamageOffline(float damage)
+        {
+            Health.TakeDamage(damage);
         }
     }
 }
