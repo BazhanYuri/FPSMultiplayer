@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2825676867459081107, guid: 2c6b0429083105e4f9357486428224be,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3273589664254022331, guid: 2c6b0429083105e4f9357486428224be,
         type: 3}
       propertyPath: m_RootOrder
@@ -82,6 +87,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5455445161440059533, guid: 2c6b0429083105e4f9357486428224be,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776160349955205652, guid: 2c6b0429083105e4f9357486428224be,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5776160349955205652, guid: 2c6b0429083105e4f9357486428224be,
         type: 3}
       propertyPath: m_Enabled
@@ -107,7 +122,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3568171491072877314, guid: 2c6b0429083105e4f9357486428224be, type: 3}
+    - {fileID: 6056304715603568444, guid: 2c6b0429083105e4f9357486428224be, type: 3}
+    - {fileID: 7048351705649964697, guid: 2c6b0429083105e4f9357486428224be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c6b0429083105e4f9357486428224be, type: 3}
 --- !u!114 &281964709641657211 stripped
 MonoBehaviour:

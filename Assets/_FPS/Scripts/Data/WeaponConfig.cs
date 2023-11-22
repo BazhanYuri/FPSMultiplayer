@@ -13,6 +13,7 @@ public class WeaponConfig : ScriptableObject
     public float timeToRecover = 0.5f;
     public float standartReloadTime = 1f;
     public int price = 1000;
+    public DamageData damage;
 }
 
 [System.Serializable]
@@ -20,4 +21,9 @@ public struct ShootData
 {
     public Vector2 delta;
     [Range (0, 1)] public float randomize;
+}
+[System.Serializable]
+public struct DamageData
+{
+    public float damage;
 }

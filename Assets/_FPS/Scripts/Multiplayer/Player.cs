@@ -81,6 +81,10 @@ namespace Unity.FPS.Multiplayer
             _eventBus.RoundCompleted += RestartPlayer;
             _eventBus.HalfRoundsPassed += SwitchTeam;
         }
+        public Camera GetCamera()
+        {
+            return _cameras[0];
+        }
         public void SetAsLocalMultiplayer()
         {
             foreach (var camera in _cameras)

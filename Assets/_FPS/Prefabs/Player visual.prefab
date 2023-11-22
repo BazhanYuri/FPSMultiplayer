@@ -1397,7 +1397,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6623588567845272144
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1523,6 +1523,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &2135956393176683682
 GameObject:
   m_ObjectHideFlags: 0
@@ -7516,7 +7517,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &1418071342129128862
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7642,6 +7643,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &3690133568075457429
 GameObject:
   m_ObjectHideFlags: 0
@@ -7693,7 +7695,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &3064824950617972768
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7819,6 +7821,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &3898750350510187245
 GameObject:
   m_ObjectHideFlags: 0
@@ -8379,7 +8382,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &3807207946170050906
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8505,6 +8508,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &4446685093252590910
 GameObject:
   m_ObjectHideFlags: 0
@@ -8588,7 +8592,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6511823576960243419
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8714,6 +8718,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &4725097404258210332
 GameObject:
   m_ObjectHideFlags: 0
@@ -8764,7 +8769,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &1391823344137426417
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8890,6 +8895,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &4735058259842322706
 GameObject:
   m_ObjectHideFlags: 0
@@ -14930,7 +14936,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6901021881553668048
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15056,6 +15062,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 0
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &5631482960290220070
 GameObject:
   m_ObjectHideFlags: 0
@@ -15290,7 +15297,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &4379875195748364716
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15416,6 +15423,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &5786906820838611265
 GameObject:
   m_ObjectHideFlags: 0
@@ -21298,7 +21306,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &3047304196845114619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21423,6 +21431,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 1
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &6816170394091569454
 GameObject:
   m_ObjectHideFlags: 0
@@ -26661,7 +26670,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &3984713115122416947
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -26787,6 +26796,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &7198388652822089432
 GameObject:
   m_ObjectHideFlags: 0
@@ -27022,7 +27032,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &9133957867940689149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27147,6 +27157,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &7625123956808025226
 GameObject:
   m_ObjectHideFlags: 0
@@ -27442,7 +27453,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6552733432913134422
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -27568,6 +27579,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 3
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &8303255536278391320
 GameObject:
   m_ObjectHideFlags: 0
@@ -27618,7 +27630,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &382023261399057131
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27743,6 +27755,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &8319405394169766930
 GameObject:
   m_ObjectHideFlags: 0
@@ -32788,7 +32801,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &3172993308874908272
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -32914,6 +32927,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 2
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &8909161455188537094
 GameObject:
   m_ObjectHideFlags: 0
@@ -32967,7 +32981,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &3528650275584781474
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33092,6 +33106,7 @@ MonoBehaviour:
   health: {fileID: 0}
   playerPart: 1
   playerDamageConfig: {fileID: 11400000, guid: 1ef66d1399ca62e41991d5a4b8b69857, type: 2}
+  isOnline: 0
 --- !u!1 &8927616079660949274
 GameObject:
   m_ObjectHideFlags: 0

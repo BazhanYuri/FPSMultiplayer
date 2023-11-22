@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefb4164cfe6e404baf41c716037988b, type: 3}
+  m_Name: TestLevelConfig
+  m_EditorClassIdentifier: 
+  trainTarget: {fileID: 1193649488762973347, guid: 4f5c4a6c3ba84074093df255fe95d93e,
+    type: 3}
+  stepHeight: 5
+  timeToRespawnEnemies: 3
+  isRespawnEnemies: 1
+  enemiesMovingTrainData:
+    amplitude: 5
+    time: 3
+  obstacleMovingTrainData:
+    time: 3
+    distance: 7

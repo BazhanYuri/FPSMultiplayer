@@ -97,7 +97,71 @@ MonoBehaviour:
     randomize: 0
   - delta: {x: -0.3, y: 0}
     randomize: 0
-  spreads: []
+  spreads:
+  - delta: {x: 0, y: 0}
+    randomize: 0.2
+  - delta: {x: 0.2, y: 0.15}
+    randomize: 0.3
+  - delta: {x: -0.15, y: -0.2}
+    randomize: 0.25
+  - delta: {x: 0.1, y: 0.15}
+    randomize: 0.2
+  - delta: {x: 0.2, y: 0.1}
+    randomize: 0.15
+  - delta: {x: -0.15, y: 0.2}
+    randomize: 0.25
+  - delta: {x: 0.2, y: -0.15}
+    randomize: 0.3
+  - delta: {x: -0.15, y: 0.5}
+    randomize: 0.25
+  - delta: {x: 0.1, y: 0.15}
+    randomize: 0.2
+  - delta: {x: -0.2, y: 0.1}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: -0.2, y: 0}
+    randomize: 0.728
+  - delta: {x: 0.6, y: 0}
+    randomize: 0.15
+  - delta: {x: 0, y: 0.4}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: 0, y: 1}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: 1, y: 0.2}
+    randomize: 0.15
+  - delta: {x: 0.2, y: 0.2}
+    randomize: 0.15
+  - delta: {x: -2, y: -1.5}
+    randomize: 0.15
+  - delta: {x: 0, y: 0.1}
+    randomize: 0.15
+  - delta: {x: 0, y: -0.3}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: -1, y: 0}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: 2, y: 0}
+    randomize: 0.15
+  - delta: {x: 0, y: 0}
+    randomize: 0.15
+  - delta: {x: 1, y: 1}
+    randomize: 0.7
+  - delta: {x: 1, y: 0}
+    randomize: 0.15
+  - delta: {x: 2, y: 0}
+    randomize: 0.15
   timeToRecover: 1
   standartReloadTime: 1
   price: 300
+  damage:
+    damage: 3

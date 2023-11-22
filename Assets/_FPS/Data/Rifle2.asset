@@ -141,3 +141,5 @@ MonoBehaviour:
   timeToRecover: 0.3
   standartReloadTime: 3
   price: 1000
+  damage:
+    damage: 30

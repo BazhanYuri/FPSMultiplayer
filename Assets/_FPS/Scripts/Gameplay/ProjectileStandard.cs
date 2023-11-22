@@ -51,8 +51,6 @@ namespace Unity.FPS.Gameplay
         [Tooltip("Determines if the projectile inherits the velocity that the weapon's muzzle had when firing")]
         public bool InheritWeaponVelocity = false;
 
-        [Header("Damage")] [Tooltip("Damage of the projectile")]
-        public float Damage = 40f;
 
         [Tooltip("Area of damage. Keep empty if you don<t want area damage")]
         public DamageArea AreaOfDamage;
@@ -68,6 +66,7 @@ namespace Unity.FPS.Gameplay
         Vector3 m_TrajectoryCorrectionVector;
         Vector3 m_ConsumedTrajectoryCorrectionVector;
         List<Collider> m_IgnoredColliders;
+
 
         const QueryTriggerInteraction k_TriggerInteraction = QueryTriggerInteraction.Collide;
 
