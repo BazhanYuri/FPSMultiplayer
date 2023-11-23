@@ -10,6 +10,7 @@ public class TestLevelConfig : ScriptableObject
     public bool isRespawnEnemies;
     public EnemiesMovingTrainData enemiesMovingTrainData;
     public ObstacleMovingTrainData obstacleMovingTrainData;
+    public AIMovementData aiMovementData;
 }
 
 [System.Serializable]
@@ -23,4 +24,10 @@ public struct ObstacleMovingTrainData
 {
     public float time;
     public float distance;
+}
+[System.Serializable]
+public struct AIMovementData
+{
+    public AITrainMover aITrainMoverPrefab;
+    public float speed;
 }

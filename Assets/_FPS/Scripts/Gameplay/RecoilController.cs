@@ -23,6 +23,7 @@ namespace Unity.FPS.Gameplay
         }
         public void SetWeaponConfig(WeaponConfig weaponConfig)
         {
+            OnCooldownEnded();
             _weaponConfig = weaponConfig;
         }
         public void OnShoot()
@@ -76,6 +77,10 @@ namespace Unity.FPS.Gameplay
         }
         public void SetWeaponConfig(WeaponConfig weaponConfig)
         {
+            _currentFireCount = 0;
+            _currentRecoilForce.y = 0;
+            _currentRecoilForce.x = 0;
+
             _weaponConfig = weaponConfig;
 
             _playerCharacterController = Object.FindObjectOfType<PlayerCharacterController>();

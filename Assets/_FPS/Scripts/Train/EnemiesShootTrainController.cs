@@ -90,6 +90,7 @@ public class EnemiesShootTrainController : MonoBehaviour
     {
         foreach (var item in obstacleRoots)
         {
+            item.gameObject.SetActive(true);
             float initialZ = item.transform.localPosition.z;
             Sequence sequence = DOTween.Sequence();
 
@@ -99,12 +100,12 @@ public class EnemiesShootTrainController : MonoBehaviour
 
             sequence.SetLoops(-1, LoopType.Yoyo);
         }
-
     }   
     private void StopObstacleMoving()
     {
         foreach (var item in obstacleRoots)
         {
+            item.gameObject.SetActive(false);
             item.transform.DOKill();
         }
     }

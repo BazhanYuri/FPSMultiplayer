@@ -160,8 +160,8 @@ MonoBehaviour:
     randomize: 0.15
   - delta: {x: 2, y: 0}
     randomize: 0.15
-  timeToRecover: 1
+  timeToRecover: 0.2
   standartReloadTime: 1
   price: 300
   damage:
-    damage: 3
+    damage: 9

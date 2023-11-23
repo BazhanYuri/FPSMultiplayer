@@ -33,3 +33,4 @@ public class ShootDistancePanelControllerUI : MonoBehaviour
         OnChangeIsMovingObstacles?.Invoke(value);
     }
 }
+
